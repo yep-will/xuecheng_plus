@@ -6,10 +6,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @EnableSwagger2Doc
 @SpringBootApplication
-public class XuechengPlusContentApiApplication {
+public class ContentApiApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(XuechengPlusContentApiApplication.class, args);
+        SpringApplication.run(ContentApiApplication.class, args);
     }
 
 }
