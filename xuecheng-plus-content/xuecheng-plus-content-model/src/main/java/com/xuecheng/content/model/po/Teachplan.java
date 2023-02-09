@@ -23,6 +23,16 @@ public class Teachplan implements Serializable {
     private Long id;
 
     /**
+    * 储存媒资文件名
+    */
+    private String mediaFileName;
+
+    /***
+    * 媒资id
+    */
+    private Long mediaId;
+
+    /**
      * 课程计划名称
      */
     private String pname;

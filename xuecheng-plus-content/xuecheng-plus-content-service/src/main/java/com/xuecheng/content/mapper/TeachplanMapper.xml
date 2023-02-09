@@ -55,7 +55,7 @@
             <result column="two_coursePubId" property="coursePubId"/>
             <association property="teachplanMedia" javaType="com.xuecheng.content.model.po.TeachplanMedia">
                 <id column="teachplanMeidaId" property="id"></id>
-                <result column="mediaFilename" property="mediaFilename"></result>
+                <result column="mediaFilename" property="mediaFileName"></result>
                 <result column="mediaId" property="mediaId"></result>
             </association>
         </collection>

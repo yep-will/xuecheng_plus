@@ -44,7 +44,7 @@ public class TeachplanMedia implements Serializable {
      * 媒资文件原始名称
      */
     @TableField("media_fileName")
-    private String mediaFilename;
+    private String mediaFileName;
 
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createDate;
