@@ -1,15 +1,20 @@
 package com.xuecheng.content.model.po;
 
-import com.baomidou.mybatisplus.annotation.*;
-import lombok.Data;
-
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
+import java.io.Serializable;
+import lombok.Data;
+import com.baomidou.mybatisplus.annotation.TableName;
 
 /**
- * @author will
- * @description 课程基本信息
- * @date 2023/2/7 22:08
+ * <p>
+ * 课程基本信息
+ * </p>
+ *
+ * @author itcast
  */
 @Data
 @TableName("course_base")
