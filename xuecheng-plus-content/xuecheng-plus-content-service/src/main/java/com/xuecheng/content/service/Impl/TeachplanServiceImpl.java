@@ -40,28 +40,31 @@ public class TeachplanServiceImpl implements TeachplanService {
     }
 
 
+    /**
+     * @param dto 课程计划信息
+     * @return void
+     * @description 保存课程计划(新增 / 修改)
+     * @author will
+     * @date 2023/2/9 22:39
+     */
     @Transactional
     @Override
-    public void saveTeachplan(SaveTeachplanDto teachplanDto) {
-        //课程计划id
-        Long id = teachplanDto.getId();
-        //修改课程计划
-        if (id != null) {
-            Teachplan teachplan = teachplanMapper.selectById(id);
-            BeanUtils.copyProperties(teachplanDto, teachplan);
-            teachplanMapper.updateById(teachplan);
+    public void saveTeachplan(SaveTeachplanDto dto) {
+        Long id = dto.getId();
+        Teachplan teachplan = teachplanMapper.selectById(id);
+        if (teachplan == null) {
+            teachplan = new Teachplan();
+            BeanUtils.copyProperties(dto, teachplan);
+            //找到同级课程计划的数量
+            int count = getTeachplanCount(dto.getCourseId(), dto.getParentid());
+            //新课程计划的值
+            teachplan.setOrderby(count + 1);
+            teachplanMapper.insert(teachplan);
         } else {
-            //取出同父同级别的课程计划数量
-            int count = getTeachplanCount(teachplanDto.getCourseId(), teachplanDto.getParentid());
-            Teachplan teachplanNew = new Teachplan();
-            //设置排序号
-            teachplanNew.setOrderby(count + 1);
-            BeanUtils.copyProperties(teachplanDto, teachplanNew);
-
-            teachplanMapper.insert(teachplanNew);
-
+            BeanUtils.copyProperties(dto, teachplan);
+            //更新
+            teachplanMapper.updateById(teachplan);
         }
-
     }
 
     /**
@@ -69,14 +72,15 @@ public class TeachplanServiceImpl implements TeachplanService {
      * @param parentId 父课程计划id
      * @return int 最新排序号
      * @description 获取最新的排序号
+     * 计算机新课程计划的orderby 找到同级课程计划的数量 SELECT count(1) from teachplan where course_id=117 and parentid=268
      * @author will
      * @date 2023/2/9 21:13
      */
-    private int getTeachplanCount(long courseId, long parentId) {
+    private int getTeachplanCount(Long courseId, Long parentId) {
         LambdaQueryWrapper<Teachplan> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(Teachplan::getCourseId, courseId);
         queryWrapper.eq(Teachplan::getParentid, parentId);
         Integer count = teachplanMapper.selectCount(queryWrapper);
-        return count;
+        return count.intValue();
     }
 }

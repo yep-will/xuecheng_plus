@@ -23,7 +23,7 @@ public interface TeachplanService {
     public List<TeachplanDto> findTeachplanTree(long courseId);
 
     /**
-    * @description 保存课程计划
+    * @description 保存课程计划(新增/修改)
     * @param teachplanDto 课程计划信息
     * @return void
     * @author will

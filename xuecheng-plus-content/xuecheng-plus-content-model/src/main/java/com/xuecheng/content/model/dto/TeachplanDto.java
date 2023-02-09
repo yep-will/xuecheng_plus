@@ -17,6 +17,16 @@ import java.util.List;
 @ToString
 public class TeachplanDto extends Teachplan {
 
+    /*
+     * 储存媒资文件名
+     */
+    private String mediaFileName;
+
+    /***
+     * 媒资id
+     */
+    private Long mediaId;
+
 
     /**
      * 课程计划关联的媒资信息

@@ -84,11 +84,11 @@
                two.orderby       two_orderby,
                two.course_id     two_courseId,
                two.course_pub_id two_coursePubId,
-               m.media_fileName  mediaFilename,
+               m.media_file_name  mediaFilename,
                m.id              teachplanMeidaId,
                m.media_id        mediaId
         FROM teachplan one
-                 INNER JOIN teachplan two ON two.parentid = one.id
+                 LEFT JOIN teachplan two ON two.parentid = one.id
                  LEFT JOIN teachplan_media m ON m.teachplan_id = two.id
         WHERE one.parentid = '0'
           and one.course_id = #{value}
