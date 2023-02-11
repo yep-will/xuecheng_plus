@@ -22,9 +22,18 @@ import java.util.List;
 @Slf4j
 @RestController
 public class TeachplanController {
+
     @Autowired
     TeachplanService teachplanService;
 
+
+    /**
+     * @param courseId 课程id
+     * @return java.util.List<com.xuecheng.content.model.dto.TeachplanDto>
+     * @description 查询课程计划树形结构接口
+     * @author will
+     * @date 2023/2/11 15:25
+     */
     @ApiOperation("查询课程计划树形结构")
     @ApiImplicitParam(value = "courseId", name = "课程基础Id值", required = true, dataType = "Long", paramType = "path")
     @GetMapping("teachplan/{courseId}/tree-nodes")
@@ -32,10 +41,18 @@ public class TeachplanController {
         return teachplanService.findTeachplanTree(courseId);
     }
 
-    @ApiOperation("课程计划创建或修改")
+
+    /**
+     * @param teachplan 课程计划
+     * @return void
+     * @description 创建或修改课程计划
+     * @author will
+     * @date 2023/2/11 15:28
+     */
+    @ApiOperation("创建或修改课程计划")
     @PostMapping("/teachplan")
-    public void saveTeachplan(@RequestBody SaveTeachplanDto teachPlan) {
-        teachplanService.saveTeachplan(teachPlan);
+    public void saveTeachplan(@RequestBody SaveTeachplanDto teachplan) {
+        teachplanService.saveTeachplan(teachplan);
     }
 
 }

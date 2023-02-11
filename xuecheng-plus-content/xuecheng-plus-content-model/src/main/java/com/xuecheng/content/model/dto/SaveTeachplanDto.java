@@ -13,7 +13,7 @@ import lombok.ToString;
 @ToString
 public class SaveTeachplanDto {
 
-    /***
+    /**
      * 教学计划id
      */
     private Long id;
@@ -38,7 +38,6 @@ public class SaveTeachplanDto {
      */
     private String mediaType;
 
-
     /**
      * 课程标识
      */
@@ -49,11 +48,9 @@ public class SaveTeachplanDto {
      */
     private Long coursePubId;
 
-
     /**
      * 是否支持试学或预览（试看）
      */
     private String isPreview;
-
 
 }

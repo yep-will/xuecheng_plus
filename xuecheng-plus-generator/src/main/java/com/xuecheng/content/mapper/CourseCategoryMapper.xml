@@ -4,13 +4,13 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.xuecheng.content.model.po.CourseCategory">
-        <id column="id" property="id" />
-        <result column="name" property="name" />
-        <result column="label" property="label" />
-        <result column="parentid" property="parentid" />
-        <result column="is_show" property="isShow" />
-        <result column="orderby" property="orderby" />
-        <result column="is_leaf" property="isLeaf" />
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="label" property="label"/>
+        <result column="parentid" property="parentid"/>
+        <result column="is_show" property="isShow"/>
+        <result column="orderby" property="orderby"/>
+        <result column="is_leaf" property="isLeaf"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->

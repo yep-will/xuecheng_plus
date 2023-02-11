@@ -37,7 +37,7 @@ public interface CourseBaseInfoService {
     public CourseBaseInfoDto createCourseBase(Long companyId, AddCourseDto addCourseDto);
 
     /**
-     * @param courseId
+     * @param courseId 课程id
      * @return com.xuecheng.content.model.dto.CourseBaseInfoDto
      * @description 根据课程id查询课程的基本和营销信息
      * @author will
@@ -47,7 +47,7 @@ public interface CourseBaseInfoService {
 
     /**
      * @param companyId 机构id 要校验本机构只能修改本机构的课程
-     * @param dto 修改课程信息
+     * @param dto       修改课程信息
      * @return com.xuecheng.content.model.dto.CourseBaseInfoDto
      * @description 修改课程信息
      * @author will

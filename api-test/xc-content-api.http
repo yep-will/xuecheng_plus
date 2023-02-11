@@ -22,7 +22,7 @@ Content-Type: application/json
   "st": "1-1-21",
   "name": "29特色课程",
   "pic": "",
-  "teachMode": "200002",
+  "teachmode": "200002",
   "users": "",
   "tags": "标签",
   "grade": "204001",
@@ -58,7 +58,7 @@ Content-Type: application/json
   "mt": "1-14",
   "st": "1-14-10",
   "grade": "204003",
-  "teachMode": "200002",
+  "teachmode": "200002",
   "description": "Nacos 是阿里巴巴推出来的一个新开源项目，这是一个更易于构建云原生应用的动态服务发现、配置管理和服务管理平台。\n\nNacos 致力于帮助您发现、配置和管理微服务。Nacos 提供了一组简单易用的特性集，帮助您快速实现动态服务发现、服务配置、服务元数据及流量管理。\n\nNacos 帮助您更敏捷和容易地构建、交付和管理微服务平台。 Nacos 是构建以“服务”为中心的现代应用架构 (例如微服务范式、云原生范式) 的服务基础设施\n\nNacos 支持如下核心特性：\n\n1）服务发现： 支持 DNS 与 RPC 服务发现，也提供原生 SDK 、OpenAPI 等多种服务注册方式和 DNS、HTTP 与 API 等多种服务发现方式。\n2）服务健康监测： Nacos 提供对服务的实时的健康检查，阻止向不健康的主机或服务实例发送请求。\n3）动态配置服务： Nacos 提供配置统一管理功能，能够帮助我们将配置以中心化、外部化和动态化的方式管理所有环境的应用配置和服务配置。\n4）动态 DNS 服务： Nacos 支持动态 DNS 服务权重路由，能够让我们很容易地实现中间层负载均衡、更灵活的路由策略、流量控制以及数据中心内网的简单 DNS 解析服务。\n5）服务及其元数据管理： Nacos 支持从微服务平台建设的视角管理数据中心的所有服务及元数据，包括管理服务的描述、生命周期、服务的静态依赖分析、服务的健康状态、服务的流量管理、路由及安全策略、服务的 SLA 以及最首要的 metrics 统计数据。",
   "pic": "/mediafiles/2022/10/04/8026f17cf7b8697eccec2c8406d0c96c.png",
   "createDate": "2022-10-04 18:58:11",
@@ -92,7 +92,7 @@ Content-Type: application/json
 
 {
   "courseId" : 74,
-  "parentId": 0,
+  "parentid": 0,
   "grade" : 1,
   "pName" : "新章名称 [点击修改]"
 }
@@ -105,7 +105,7 @@ Content-Type: application/json
 
 {
   "courseId" : 74,
-  "parentId": 247,
+  "parentid": 247,
   "grade" : 2,
   "pName" : "小节名称 [点击修改]"
 }
@@ -127,12 +127,12 @@ Content-Type: application/json
   "grade" : "2",
   "isPreview" : "1",
   "mediaType" : "",
-  "orderBy" : 1,
+  "orderby" : 1,
   "parentId" : 237,
   "pName" : "第1节修改名称",
   "startTime" : null,
   "status" : null,
-  "teachPlanId" : 240
+  "teachplanId" : 240
 }
 
 

@@ -4,13 +4,13 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.xuecheng.content.model.po.CourseCategory">
-        <id column="id" property="id" />
-        <result column="name" property="name" />
-        <result column="label" property="label" />
-        <result column="parentid" property="parentid" />
-        <result column="is_show" property="isShow" />
-        <result column="orderby" property="orderby" />
-        <result column="is_leaf" property="isLeaf" />
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="label" property="label"/>
+        <result column="parentid" property="parentid"/>
+        <result column="is_show" property="isShow"/>
+        <result column="orderby" property="orderby"/>
+        <result column="is_leaf" property="isLeaf"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -18,14 +18,22 @@
         id, name, label, parentid, is_show, orderby, is_leaf
     </sql>
 
-    <select id="selectTreeNodes" resultType="com.xuecheng.content.model.dto.CourseCategoryTreeDto" parameterType="string">
+    <select id="selectTreeNodes" resultType="com.xuecheng.content.model.dto.CourseCategoryTreeDto"
+            parameterType="string">
         with recursive t1 as (
-            select * from  course_category p where id= #{id}
+            select *
+            from course_category p
+            where id = #{id}
             union all
-            select t.* from course_category t inner join t1 on t1.id = t.parentid
+            select t.*
+            from course_category t
+                     inner join t1 on t1.id = t.parentid
         )
-        select *  from t1 order by t1.id, t1.orderby
+        select *
+        from t1
+        order by t1.id, t1.orderby
 
     </select>
+
 
 </mapper>

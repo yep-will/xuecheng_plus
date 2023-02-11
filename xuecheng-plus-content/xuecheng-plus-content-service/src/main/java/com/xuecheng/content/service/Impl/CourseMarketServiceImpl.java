@@ -6,7 +6,7 @@ import com.xuecheng.content.model.po.CourseMarket;
 import org.springframework.stereotype.Service;
 
 /**
-* @description 课程营销service
+* @description 课程营销相关操作接口实现类
 * @author will
 * @date 2023/2/9 11:04
 * @version 1.0

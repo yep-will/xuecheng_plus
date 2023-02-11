@@ -15,5 +15,8 @@ import java.util.List;
 @Data
 public class CourseCategoryTreeDto extends CourseCategory implements Serializable {
 
+    /**
+     * 存储叶子结点
+     */
     List childrenTreeNodes;
 }

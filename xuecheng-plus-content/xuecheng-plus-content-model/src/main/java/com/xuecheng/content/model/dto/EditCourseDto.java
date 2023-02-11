@@ -14,7 +14,10 @@ import lombok.Data;
 @ApiModel(value = "EditCourseDto", description = "修改课程基本信息")
 public class EditCourseDto extends AddCourseDto {
 
-    @ApiModelProperty(value = "课程名称id", required = true)
+    /**
+     * 课程标识id
+     */
+    @ApiModelProperty(value = "课程标识id", required = true)
     private Long id;
 
 }

@@ -12,7 +12,6 @@ import lombok.Data;
 @Data
 public class CourseBaseInfoDto extends CourseBase {
 
-
     /**
      * 收费规则，对应数据字典
      */
@@ -22,7 +21,6 @@ public class CourseBaseInfoDto extends CourseBase {
      * 价格
      */
     private Float price;
-
 
     /**
      * 原价

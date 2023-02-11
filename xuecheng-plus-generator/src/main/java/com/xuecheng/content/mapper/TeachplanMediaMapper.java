@@ -1,12 +1,11 @@
 package com.xuecheng.content.mapper;
 
-import com.xuecheng.content.model.po.TeachplanMedia;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.springframework.stereotype.Repository;
+import com.xuecheng.content.model.po.TeachplanMedia;
 
 /**
  * <p>
- *  Mapper 接口
+ * Mapper 接口
  * </p>
  *
  * @author itcast

@@ -4,14 +4,14 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.xuecheng.content.model.po.CourseMarket">
-        <id column="id" property="id" />
-        <result column="charge" property="charge" />
-        <result column="price" property="price" />
-        <result column="original_price" property="originalPrice" />
-        <result column="qq" property="qq" />
-        <result column="wechat" property="wechat" />
-        <result column="phone" property="phone" />
-        <result column="valid_days" property="validDays" />
+        <id column="id" property="id"/>
+        <result column="charge" property="charge"/>
+        <result column="price" property="price"/>
+        <result column="original_price" property="originalPrice"/>
+        <result column="qq" property="qq"/>
+        <result column="wechat" property="wechat"/>
+        <result column="phone" property="phone"/>
+        <result column="valid_days" property="validDays"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->

@@ -4,13 +4,13 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.xuecheng.content.model.po.CourseTeacher">
-        <id column="id" property="id" />
-        <result column="course_id" property="courseId" />
-        <result column="teacher_name" property="teacherName" />
-        <result column="position" property="position" />
-        <result column="introduction" property="introduction" />
-        <result column="photograph" property="photograph" />
-        <result column="create_date" property="createDate" />
+        <id column="id" property="id"/>
+        <result column="course_id" property="courseId"/>
+        <result column="teacher_name" property="teacherName"/>
+        <result column="position" property="position"/>
+        <result column="introduction" property="introduction"/>
+        <result column="photograph" property="photograph"/>
+        <result column="create_date" property="createDate"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->

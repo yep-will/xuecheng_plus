@@ -7,7 +7,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * <p>
- *     系统管理启动类
+ * 系统管理启动类
  * </p>
  *
  * @Description:
@@ -18,6 +18,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class SystemApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(SystemApplication.class,args);
+        SpringApplication.run(SystemApplication.class, args);
     }
 }

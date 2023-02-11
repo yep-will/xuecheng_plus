@@ -16,8 +16,13 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @MapperScan("com.xuecheng.content.mapper")
 public class MybatisPlusConfig {
+
+
     /**
-     * 定义分页拦截器
+     * @return com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor
+     * @description 定义分页拦截器
+     * @author will
+     * @date 2023/2/11 16:23
      */
     @Bean
     public MybatisPlusInterceptor getMybatisPlusInterceptor() {
@@ -25,6 +30,5 @@ public class MybatisPlusConfig {
         interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));
         return interceptor;
     }
-
 
 }

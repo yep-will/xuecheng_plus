@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * @author will
  * @version 1.0
- * @description 课程计划service接口实现类
+ * @description 课程计划相关操作接口实现类
  * @date 2023/2/9 16:52
  */
 @Slf4j
@@ -30,7 +30,7 @@ public class TeachplanServiceImpl implements TeachplanService {
     /**
      * @param courseId 课程id
      * @return java.util.List<com.xuecheng.content.model.dto.TeachplanDto>
-     * @description 查询课程计划树型结构
+     * @description 查询课程相应的课程计划树型结构
      * @author will
      * @date 2023/2/9 16:51
      */
@@ -45,7 +45,7 @@ public class TeachplanServiceImpl implements TeachplanService {
      * @return void
      * @description 保存课程计划(新增 / 修改)
      * @author will
-     * @date 2023/2/9 22:39
+     * @date 2023/2/9 21:10
      */
     @Transactional
     @Override
@@ -67,12 +67,13 @@ public class TeachplanServiceImpl implements TeachplanService {
         }
     }
 
+
     /**
      * @param courseId 课程id
      * @param parentId 父课程计划id
      * @return int 最新排序号
      * @description 获取最新的排序号
-     * 计算机新课程计划的orderby 找到同级课程计划的数量 SELECT count(1) from teachplan where course_id=117 and parentid=268
+     * 找到同级课程计划的数量 SELECT count(1) from teachplan where course_id=117 and parentid=268
      * @author will
      * @date 2023/2/9 21:13
      */

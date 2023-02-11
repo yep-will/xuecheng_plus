@@ -9,7 +9,9 @@ import java.io.Serializable;
  * @date 2023/2/8 11:10
  */
 public class RestErrorResponse implements Serializable {
-
+    /**
+     * 异常错误响应信息---返回给前端
+     */
     private String errMessage;
 
     public RestErrorResponse(String errMessage) {

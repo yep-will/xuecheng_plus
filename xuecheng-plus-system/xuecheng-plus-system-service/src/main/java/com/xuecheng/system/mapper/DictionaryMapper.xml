@@ -4,10 +4,10 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.xuecheng.system.model.po.Dictionary">
-        <id column="id" property="id" />
-        <result column="name" property="name" />
-        <result column="code" property="code" />
-        <result column="item_values" property="itemValues" />
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="code" property="code"/>
+        <result column="item_values" property="itemValues"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
