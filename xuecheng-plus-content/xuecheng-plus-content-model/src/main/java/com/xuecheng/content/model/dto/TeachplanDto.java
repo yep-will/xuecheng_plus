@@ -35,6 +35,6 @@ public class TeachplanDto extends Teachplan {
     /**
      * 子目录
      */
-    List<TeachplanDto> teachplanTreeNodes;
+    List<TeachplanDto> teachPlanTreeNodes;
 
 }

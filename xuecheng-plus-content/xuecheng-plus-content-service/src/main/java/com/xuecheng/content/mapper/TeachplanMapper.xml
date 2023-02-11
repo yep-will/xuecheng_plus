@@ -41,7 +41,7 @@
         <result column="one_orderby" property="orderby"/>
         <result column="one_courseId" property="courseId"/>
         <result column="one_coursePubId" property="coursePubId"/>
-        <collection property="teachplanTreeNodes" ofType="com.xuecheng.content.model.dto.TeachplanDto">
+        <collection property="teachPlanTreeNodes" ofType="com.xuecheng.content.model.dto.TeachplanDto">
             <id column="two_id" property="id"></id>
             <result column="two_pname" property="pname"></result>
             <result column="two_parentid" property="parentid"/>
