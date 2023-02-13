@@ -5,16 +5,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xuecheng.base.exception.XueChengPlusException;
 import com.xuecheng.base.model.PageParams;
 import com.xuecheng.base.model.PageResult;
-import com.xuecheng.content.mapper.CourseBaseMapper;
-import com.xuecheng.content.mapper.CourseCategoryMapper;
-import com.xuecheng.content.mapper.CourseMarketMapper;
+import com.xuecheng.content.mapper.*;
 import com.xuecheng.content.model.dto.AddCourseDto;
 import com.xuecheng.content.model.dto.CourseBaseInfoDto;
 import com.xuecheng.content.model.dto.EditCourseDto;
 import com.xuecheng.content.model.dto.QueryCourseParamsDto;
-import com.xuecheng.content.model.po.CourseBase;
-import com.xuecheng.content.model.po.CourseCategory;
-import com.xuecheng.content.model.po.CourseMarket;
+import com.xuecheng.content.model.po.*;
 import com.xuecheng.content.service.CourseBaseInfoService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -45,6 +41,12 @@ public class CourseBaseInfoServiceImpl implements CourseBaseInfoService {
 
     @Autowired
     CourseMarketServiceImpl courseMarketService;
+
+    @Autowired
+    CourseTeacherMapper courseTeacherMapper;
+
+    @Autowired
+    TeachplanMapper teachplanMapper;
 
 
     /**
@@ -88,7 +90,7 @@ public class CourseBaseInfoServiceImpl implements CourseBaseInfoService {
      * @author will
      * @date 2023/2/11 17:02
      */
-    @Transactional(rollbackFor=Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public CourseBaseInfoDto createCourseBase(Long companyId, AddCourseDto dto) {
         //对课程基本信息数据进行封装, 调用mapper进行数据持久化
@@ -177,11 +179,11 @@ public class CourseBaseInfoServiceImpl implements CourseBaseInfoService {
      * @param companyId 机构id
      * @param dto       课程基本信息
      * @return com.xuecheng.content.model.dto.CourseBaseInfoDto
-     * @description 更新课程
+     * @description 更新课程(基本信息+营销信息)
      * @author will
      * @date 2023/2/9 12:05
      */
-    @Transactional(rollbackFor=Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public CourseBaseInfoDto updateCourseBase(Long companyId, EditCourseDto dto) {
         //课程id
@@ -219,6 +221,40 @@ public class CourseBaseInfoServiceImpl implements CourseBaseInfoService {
         }
 
         return getCourseBaseInfo(courseId);
+    }
+
+
+    /**
+     * @param companyId 机构id
+     * @param courseId  课程id
+     * @return void
+     * @description 删除课程(包含基本信息、营销信息、课程计划、课程教师)
+     * @author will
+     * @date 2023/2/13 22:17
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void delectCourse(Long companyId, Long courseId) {
+        CourseBase courseBase = courseBaseMapper.selectById(courseId);
+        if (!companyId.equals(courseBase.getCompanyId())) {
+            XueChengPlusException.cast("只允许删除本机构的课程");
+        }
+
+        // 删除课程教师信息
+        LambdaQueryWrapper<CourseTeacher> teacherLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        teacherLambdaQueryWrapper.eq(CourseTeacher::getCourseId, courseId);
+        courseTeacherMapper.delete(teacherLambdaQueryWrapper);
+
+        // 删除课程计划
+        LambdaQueryWrapper<Teachplan> teachplanLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        teachplanLambdaQueryWrapper.eq(Teachplan::getCourseId, courseId);
+        teachplanMapper.delete(teachplanLambdaQueryWrapper);
+
+        // 删除营销信息
+        courseMarketMapper.deleteById(courseId);
+
+        // 删除课程基本信息
+        courseBaseMapper.deleteById(courseId);
     }
 
 

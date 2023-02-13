@@ -92,4 +92,20 @@ public class CourseBaseInfoController {
         return courseBaseInfoService.updateCourseBase(companyId, editCourseDto);
     }
 
+
+    /**
+     * @param courseId  课程id
+     * @return void
+     * @description 删除课程(包含基本信息、营销信息、课程计划、课程教师)
+     * @author will
+     * @date 2023/2/13 22:44
+     */
+    @ApiOperation("删除课程")
+    @DeleteMapping("/course/{courseId}")
+    public void deleteCourse(@PathVariable Long courseId) {
+        //机构id，由于认证系统没有上线暂时硬编码
+        Long companyId = 1232141425L;
+        courseBaseInfoService.delectCourse(companyId, courseId);
+    }
+
 }

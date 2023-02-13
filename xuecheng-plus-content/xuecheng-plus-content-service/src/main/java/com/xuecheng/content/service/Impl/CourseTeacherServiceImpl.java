@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -55,6 +56,7 @@ public class CourseTeacherServiceImpl implements CourseTeacherService {
      * @author will
      * @date 2023/2/13 19:54
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public CourseTeacher saveCourseTeacher(Long companyId, CourseTeacher teacher) {
         //获取相应课程教师信息
