@@ -33,7 +33,7 @@ public class TeachplanDto extends Teachplan {
     TeachplanMedia teachplanMedia;
 
     /**
-     * 子目录
+     * 子目录(哪个鬼才命的名...)
      */
     List<TeachplanDto> teachPlanTreeNodes;
 

@@ -24,7 +24,7 @@ public interface CourseBaseInfoService {
      * @author will
      * @date 2023/2/6 21:43
      */
-    public PageResult<CourseBase> queryCourseBaseList(PageParams pageParams, QueryCourseParamsDto queryCourseParamsDto);
+    PageResult<CourseBase> queryCourseBaseList(PageParams pageParams, QueryCourseParamsDto queryCourseParamsDto);
 
     /**
      * @param companyId    教学机构id
@@ -34,7 +34,7 @@ public interface CourseBaseInfoService {
      * @author will
      * @date 2023/2/7 21:40
      */
-    public CourseBaseInfoDto createCourseBase(Long companyId, AddCourseDto addCourseDto);
+    CourseBaseInfoDto createCourseBase(Long companyId, AddCourseDto addCourseDto);
 
     /**
      * @param courseId 课程id
@@ -43,7 +43,7 @@ public interface CourseBaseInfoService {
      * @author will
      * @date 2023/2/9 10:47
      */
-    public CourseBaseInfoDto getCourseBaseInfo(Long courseId);
+    CourseBaseInfoDto getCourseBaseInfo(Long courseId);
 
     /**
      * @param companyId 机构id 要校验本机构只能修改本机构的课程
@@ -53,5 +53,5 @@ public interface CourseBaseInfoService {
      * @author will
      * @date 2023/2/9 10:59
      */
-    public CourseBaseInfoDto updateCourseBase(Long companyId, EditCourseDto dto);
+    CourseBaseInfoDto updateCourseBase(Long companyId, EditCourseDto dto);
 }

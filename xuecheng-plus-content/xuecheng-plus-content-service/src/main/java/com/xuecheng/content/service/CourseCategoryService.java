@@ -19,5 +19,5 @@ public interface CourseCategoryService {
      * @author will
      * @date 2023/2/7 16:56
      */
-    public List<CourseCategoryTreeDto> queryTreeNodes(String id);
+    List<CourseCategoryTreeDto> queryTreeNodes(String id);
 }

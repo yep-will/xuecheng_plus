@@ -55,4 +55,17 @@ public class TeachplanController {
         teachplanService.saveTeachplan(teachplan);
     }
 
+
+    /**
+     * @param teachplanId 课程计划id
+     * @return void
+     * @description 删除课程计划(包括大章和小节)
+     * @author will
+     * @date 2023/2/13 11:31
+     */
+    @ApiOperation("删除课程计划(包括大章和小节)")
+    @DeleteMapping("teachplan/{teachplanId}")
+    public void deleteTeachplan(@PathVariable Long teachplanId) {
+        teachplanService.deleteTeachplan(teachplanId);
+    }
 }

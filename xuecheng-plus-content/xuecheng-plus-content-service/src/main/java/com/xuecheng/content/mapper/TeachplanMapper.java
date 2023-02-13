@@ -21,6 +21,7 @@ public interface TeachplanMapper extends BaseMapper<Teachplan> {
      * @author will
      * @date 2023/2/9 16:13
      */
-    public List<TeachplanDto> selectTreeNodes(Long courseId);
+    List<TeachplanDto> selectTreeNodes(Long courseId);
+
 
 }

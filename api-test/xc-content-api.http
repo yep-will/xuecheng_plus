@@ -91,10 +91,10 @@ POST {{content_host}}/content/teachplan
 Content-Type: application/json
 
 {
-  "courseId" : 74,
+  "courseId": 74,
   "parentid": 0,
-  "grade" : 1,
-  "pName" : "新章名称 [点击修改]"
+  "grade": 1,
+  "pName": "新章名称 [点击修改]"
 }
 
 
@@ -104,37 +104,33 @@ POST {{content_host}}/content/teachplan
 Content-Type: application/json
 
 {
-  "courseId" : 74,
+  "courseId": 74,
   "parentid": 247,
-  "grade" : 2,
-  "pName" : "小节名称 [点击修改]"
+  "grade": 2,
+  "pName": "小节名称 [点击修改]"
 }
 
 
 
-### 课程课程计划,需要从数据库找到修改的课程计划id
+### 保存课程计划,需要从数据库找到修改的课程计划id
 POST {{content_host}}/content/teachplan
 Content-Type: application/json
 
 {
-  "changeDate" : null,
-  "courseId" : 22,
-  "coursePubId" : null,
-  "createDate" : null,
-  "ctlBarShow" : false,
-  "ctlEditTitle" : true,
-  "endTime" : null,
-  "grade" : "2",
-  "isPreview" : "1",
-  "mediaType" : "",
-  "orderby" : 1,
-  "parentId" : 237,
-  "pName" : "第1节修改名称",
-  "startTime" : null,
-  "status" : null,
-  "teachplanId" : 240
+  "changeDate": null,
+  "courseId": 22,
+  "coursePubId": null,
+  "createDate": null,
+  "ctlBarShow": false,
+  "ctlEditTitle": true,
+  "endTime": null,
+  "grade": "2",
+  "isPreview": "1",
+  "mediaType": "",
+  "orderby": 1,
+  "parentId": 237,
+  "pName": "第1节修改名称",
+  "startTime": null,
+  "status": null,
+  "teachplanId": 240
 }
-
-
-
-

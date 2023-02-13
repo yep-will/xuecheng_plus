@@ -44,7 +44,7 @@ public class CourseCategoryServiceImpl implements CourseCategoryService {
         categoryTreeDtos.stream().forEach(item -> {
             nodeMap.put(item.getId(), item);    //每遍历一次都将结点放进map中
             if (item.getParentid().equals(id)) {
-                //当前结点是 根 结点的直接下属-放进最终list中
+                //当前结点是根结点的直接下属-放进最终list中
                 courseCategoryTreeDtos.add(item);
             }
             //找到该结点的父结点id

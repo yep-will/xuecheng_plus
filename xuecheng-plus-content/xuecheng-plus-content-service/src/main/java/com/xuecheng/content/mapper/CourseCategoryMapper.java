@@ -15,11 +15,11 @@ import java.util.List;
 public interface CourseCategoryMapper extends BaseMapper<CourseCategory> {
 
     /**
-     * @param id  课程分类标识id
+     * @param id 课程分类标识id
      * @return java.util.List<com.xuecheng.content.model.dto.CourseCategoryTreeDto>
      * @description 根据id寻找当前课程分类的子分类
      * @author will
      * @date 2023/2/11 16:38
      */
-    public List<CourseCategoryTreeDto> selectTreeNodes(String id);
+    List<CourseCategoryTreeDto> selectTreeNodes(String id);
 }
