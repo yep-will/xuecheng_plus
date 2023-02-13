@@ -7,11 +7,10 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * <p>
- * 课程-教师关系表
- * </p>
- *
- * @author itcast
+ * @author will
+ * @version 1.0
+ * @description 课程-教师关系表
+ * @date 2023/2/11 16:15
  */
 @Data
 @TableName("course_teacher")
@@ -55,6 +54,5 @@ public class CourseTeacher implements Serializable {
      */
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createDate;
-
 
 }

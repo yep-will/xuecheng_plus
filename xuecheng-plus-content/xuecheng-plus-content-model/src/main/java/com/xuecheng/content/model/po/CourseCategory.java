@@ -7,8 +7,8 @@ import java.io.Serializable;
 
 /**
  * @author will
+ * @version 1.0
  * @description 课程分类
- * @return
  * @date 2023/2/7 15:37
  */
 @Data
@@ -51,6 +51,5 @@ public class CourseCategory implements Serializable {
      * 是否叶子
      */
     private Integer isLeaf;
-
 
 }

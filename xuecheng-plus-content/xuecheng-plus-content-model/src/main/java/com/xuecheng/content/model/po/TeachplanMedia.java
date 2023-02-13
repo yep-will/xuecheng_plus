@@ -7,11 +7,10 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * <p>
- *
- * </p>
- *
- * @author itcast
+ * @author will
+ * @version 1.0
+ * @description 课程-媒资关系表
+ * @date 2023/2/11 16:19
  */
 @Data
 @TableName("teachplan_media")
@@ -44,8 +43,11 @@ public class TeachplanMedia implements Serializable {
      * 媒资文件原始名称
      */
     @TableField("media_fileName")
-    private String mediaFilename;
+    private String mediaFileName;
 
+    /**
+     * 创建时间
+     */
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createDate;
 
@@ -58,6 +60,5 @@ public class TeachplanMedia implements Serializable {
      * 修改人
      */
     private String changePeople;
-
 
 }

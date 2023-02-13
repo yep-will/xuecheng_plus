@@ -4,14 +4,14 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.xuecheng.content.model.po.TeachplanMedia">
-        <id column="id" property="id" />
-        <result column="media_id" property="mediaId" />
-        <result column="teachplan_id" property="teachplanId" />
-        <result column="course_id" property="courseId" />
-        <result column="media_fileName" property="mediaFilename" />
-        <result column="create_date" property="createDate" />
-        <result column="create_people" property="createPeople" />
-        <result column="change_people" property="changePeople" />
+        <id column="id" property="id"/>
+        <result column="media_id" property="mediaId"/>
+        <result column="teachplan_id" property="teachplanId"/>
+        <result column="course_id" property="courseId"/>
+        <result column="media_fileName" property="mediaFilename"/>
+        <result column="create_date" property="createDate"/>
+        <result column="create_people" property="createPeople"/>
+        <result column="change_people" property="changePeople"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->

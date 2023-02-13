@@ -25,10 +25,18 @@ public class CourseCategoryController {
     @Autowired
     CourseCategoryService courseCategoryService;
 
+
+    /**
+     * @return java.util.List<com.xuecheng.content.model.dto.CourseCategoryTreeDto>
+     * @description 课程分类查询接口
+     * @author will
+     * @date 2023/2/11 15:22
+     */
     @ApiOperation("课程分类查询接口")
     @GetMapping("/course-category/tree-nodes")
-    public List<CourseCategoryTreeDto> queryTreeNodes(){
-        List<CourseCategoryTreeDto> courseCategoryTreeDtos = courseCategoryService.queryTreeNodes("1"); //是1不是0,根结点不显示
+    public List<CourseCategoryTreeDto> queryTreeNodes() {
+        //传入参数是1不是0,根结点不显示
+        List<CourseCategoryTreeDto> courseCategoryTreeDtos = courseCategoryService.queryTreeNodes("1");
         return courseCategoryTreeDtos;
     }
 

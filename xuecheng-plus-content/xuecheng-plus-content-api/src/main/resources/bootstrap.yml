@@ -2,7 +2,8 @@ server:
   servlet:
     context-path: /content
   port: 63040
-#微服务配置
+
+# 微服务配置
 spring:
   application:
     name: content-api
@@ -10,7 +11,6 @@ spring:
 # 日志文件配置路径
 logging:
   config: classpath:log4j2-dev.xml
-
 
 # swagger 文档配置
 swagger:

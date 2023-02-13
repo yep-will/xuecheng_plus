@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 
 /**
  * @author will
+ * @version 1.0
  * @description 课程基本信息
  * @date 2023/2/7 22:08
  */
@@ -109,6 +110,5 @@ public class CourseBase implements Serializable {
      * 课程发布状态 未发布  已发布 下线
      */
     private String status;
-
 
 }

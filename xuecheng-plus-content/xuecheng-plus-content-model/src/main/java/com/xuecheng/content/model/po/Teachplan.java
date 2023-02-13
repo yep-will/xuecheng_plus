@@ -7,11 +7,10 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * <p>
- * 课程计划
- * </p>
- *
- * @author itcast
+ * @author will
+ * @version 1.0
+ * @description 课程计划
+ * @date 2023/2/11 16:16
  */
 @Data
 @TableName("teachplan")
@@ -19,6 +18,9 @@ public class Teachplan implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * 课程计划id/主键
+     */
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
@@ -98,6 +100,5 @@ public class Teachplan implements Serializable {
      */
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime changeDate;
-
 
 }

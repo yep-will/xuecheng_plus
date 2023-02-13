@@ -35,13 +35,14 @@ class ContentServiceApplicationTests {
 
     @Test
     void testCourseBaseInfoService() {
-        PageParams pageParams = new PageParams();   //默认有当前页码1和每页记录数10
+        //默认有当前页码1和每页记录数10
+        PageParams pageParams = new PageParams();
         PageResult<CourseBase> courseBasePageResult = courseBaseInfoService.queryCourseBaseList(pageParams, new QueryCourseParamsDto());
         System.out.println(courseBasePageResult);
     }
 
     @Test
-    void testCourseCategoryService(){
+    void testCourseCategoryService() {
         List<CourseCategoryTreeDto> courseCategoryTreeDtos = courseCategoryService.queryTreeNodes("1");
         System.out.println(courseCategoryTreeDtos);
     }

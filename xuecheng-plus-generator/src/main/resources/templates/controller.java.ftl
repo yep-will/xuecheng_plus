@@ -2,12 +2,12 @@ package ${package.Controller};
 
 import org.springframework.web.bind.annotation.RequestMapping;
 <#if restControllerStyle>
-import org.springframework.web.bind.annotation.RestController;
+    import org.springframework.web.bind.annotation.RestController;
 <#else>
-import org.springframework.stereotype.Controller;
+    import org.springframework.stereotype.Controller;
 </#if>
 <#if superControllerClassPackage??>
-import ${superControllerClassPackage};
+    import ${superControllerClassPackage};
 </#if>
 import ${package.Service}.${table.serviceName};
 import io.swagger.annotations.Api;
@@ -16,29 +16,29 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * <p>
- * ${table.comment!} 前端控制器
- * </p>
- *
- * @author ${author}
- */
+* <p>
+    * ${table.comment!} 前端控制器
+    * </p>
+*
+* @author ${author}
+*/
 @Slf4j
 <#if restControllerStyle>
-@RestController
+    @RestController
 <#else>
-@Controller
+    @Controller
 </#if>
 <#if kotlin>
-class ${table.controllerName}<#if superControllerClass??> : ${superControllerClass}()</#if>
+    class ${table.controllerName}<#if superControllerClass??> : ${superControllerClass}()</#if>
 <#else>
-<#if superControllerClass??>
-public class ${table.controllerName} extends ${superControllerClass} {
-<#else>
-@RequestMapping("${entity?uncap_first}")
-public class ${table.controllerName} {
-</#if>
+    <#if superControllerClass??>
+        public class ${table.controllerName} extends ${superControllerClass} {
+    <#else>
+        @RequestMapping("${entity?uncap_first}")
+        public class ${table.controllerName} {
+    </#if>
 
     @Autowired
     private ${table.serviceName}  ${table.serviceName?uncap_first};
-}
+    }
 </#if>

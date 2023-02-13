@@ -8,13 +8,9 @@ Content-Type: application/json
   "publishStatus": ""
 }
 
-<> 2023-02-06T235812.200.json
 
-
-
-### 课程分类 查询
+### 课程分类查询
 GET {{content_host}}/content/course-category/tree-nodes
-
 
 
 ### 新增课程
@@ -81,3 +77,84 @@ Content-Type: application/json
   "mtName": "信息安全",
   "stName": "其它"
 }
+
+
+
+### 查询某个课程的课程计划
+GET {{content_host}}/content/teachplan/117/tree-nodes
+Content-Type: application/json
+
+
+
+### 新增课程计划--章
+POST {{content_host}}/content/teachplan
+Content-Type: application/json
+
+{
+  "courseId": 74,
+  "parentid": 0,
+  "grade": 1,
+  "pName": "新章名称 [点击修改]"
+}
+
+
+
+### 新增课程计划--节,从数据库找到第一级的课程计划id向其下边添加计划
+POST {{content_host}}/content/teachplan
+Content-Type: application/json
+
+{
+  "courseId": 74,
+  "parentid": 247,
+  "grade": 2,
+  "pName": "小节名称 [点击修改]"
+}
+
+
+
+### 保存课程计划,需要从数据库找到修改的课程计划id
+POST {{content_host}}/content/teachplan
+Content-Type: application/json
+
+{
+  "changeDate": null,
+  "courseId": 22,
+  "coursePubId": null,
+  "createDate": null,
+  "ctlBarShow": false,
+  "ctlEditTitle": true,
+  "endTime": null,
+  "grade": "2",
+  "isPreview": "1",
+  "mediaType": "",
+  "orderby": 1,
+  "parentId": 237,
+  "pName": "第1节修改名称",
+  "startTime": null,
+  "status": null,
+  "teachplanId": 240
+}
+
+
+
+### 删除课程计划(分情况测试, 有子课程计划和没有子课程计划)
+DELETE {{content_host}}/content/teachplan/291
+
+
+
+### 新增/修改课程教师
+POST {{content_host}}/content/courseTeacher
+Content-Type: application/json
+
+{
+  "id": 24,
+  "courseId": 117,
+  "teacherName": "测试老师211",
+  "position": "教师职位",
+  "introduction": "教师简介"
+}
+
+
+
+### 删除课程教师
+DELETE  {{content_host}}/content/courseTeacher/course/24/118
