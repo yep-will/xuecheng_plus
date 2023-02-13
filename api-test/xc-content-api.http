@@ -134,3 +134,8 @@ Content-Type: application/json
   "status": null,
   "teachplanId": 240
 }
+
+
+
+### 删除课程计划(分情况测试, 有子课程计划和没有子课程计划)
+DELETE {{content_host}}/content/teachplan/291

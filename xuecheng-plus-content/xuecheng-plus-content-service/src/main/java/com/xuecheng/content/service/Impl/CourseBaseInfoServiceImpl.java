@@ -88,7 +88,7 @@ public class CourseBaseInfoServiceImpl implements CourseBaseInfoService {
      * @author will
      * @date 2023/2/11 17:02
      */
-    @Transactional
+    @Transactional(rollbackFor=Exception.class)
     @Override
     public CourseBaseInfoDto createCourseBase(Long companyId, AddCourseDto dto) {
         //对课程基本信息数据进行封装, 调用mapper进行数据持久化
@@ -181,7 +181,7 @@ public class CourseBaseInfoServiceImpl implements CourseBaseInfoService {
      * @author will
      * @date 2023/2/9 12:05
      */
-    @Transactional
+    @Transactional(rollbackFor=Exception.class)
     @Override
     public CourseBaseInfoDto updateCourseBase(Long companyId, EditCourseDto dto) {
         //课程id

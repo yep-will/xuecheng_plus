@@ -42,4 +42,15 @@ public interface TeachplanService {
      * @date 2023/2/13 10:56
      */
     void deleteTeachplan(Long teachplanId);
+
+
+    /**
+     * @param moveType    移动类型
+     * @param teachplanId 课程计划id
+     * @return void
+     * @description 根据移动类型对课程计划排序
+     * @author will
+     * @date 2023/2/13 15:40
+     */
+    void orderByTeachplan(String moveType, Long teachplanId);
 }
