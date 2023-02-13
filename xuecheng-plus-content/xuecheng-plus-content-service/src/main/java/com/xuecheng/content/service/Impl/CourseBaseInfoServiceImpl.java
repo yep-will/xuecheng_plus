@@ -192,7 +192,7 @@ public class CourseBaseInfoServiceImpl implements CourseBaseInfoService {
         }
         //业务规则校验，本机构只允许修改本机构的课程
         if (!courseBase.getCompanyId().equals(companyId)) {
-            XueChengPlusException.cast("本机构只允许修改本机构的课程");
+            XueChengPlusException.cast("只允许修改本机构的课程");
         }
 
         //封装基本信息数据

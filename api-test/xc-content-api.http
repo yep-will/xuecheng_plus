@@ -139,3 +139,22 @@ Content-Type: application/json
 
 ### 删除课程计划(分情况测试, 有子课程计划和没有子课程计划)
 DELETE {{content_host}}/content/teachplan/291
+
+
+
+### 新增/修改课程教师
+POST {{content_host}}/content/courseTeacher
+Content-Type: application/json
+
+{
+  "id": 24,
+  "courseId": 117,
+  "teacherName": "测试老师211",
+  "position": "教师职位",
+  "introduction": "教师简介"
+}
+
+
+
+### 删除课程教师
+DELETE  {{content_host}}/content/courseTeacher/course/24/118

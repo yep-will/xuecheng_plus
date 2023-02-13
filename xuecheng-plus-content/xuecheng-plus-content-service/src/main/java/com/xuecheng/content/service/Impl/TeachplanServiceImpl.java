@@ -34,6 +34,12 @@ public class TeachplanServiceImpl implements TeachplanService {
     @Autowired
     TeachplanMediaMapper teachplanMediaMapper;
 
+
+    private final static String MOVEUP = "moveup";
+
+    private final static String MOVEDOWN = "movedown";
+
+
     /**
      * @param courseId 课程id
      * @return java.util.List<com.xuecheng.content.model.dto.TeachplanDto>
@@ -59,7 +65,7 @@ public class TeachplanServiceImpl implements TeachplanService {
     public void saveTeachplan(SaveTeachplanDto dto) {
         Long id = dto.getId();
         Teachplan teachplan = teachplanMapper.selectById(id);
-        if (teachplan == null) {
+        if (null == teachplan) {
             teachplan = new Teachplan();
             BeanUtils.copyProperties(dto, teachplan);
             //找到同级课程计划的数量
@@ -134,9 +140,6 @@ public class TeachplanServiceImpl implements TeachplanService {
 
     }
 
-
-    private final static String MOVEUP = "moveup";
-    private final static String MOVEDOWN = "movedown";
 
     /**
      * @param moveType    移动类型
