@@ -16,6 +16,12 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
+        <!--nacos驱动-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+
         <!-- MySQL 驱动 -->
         <dependency>
             <groupId>mysql</groupId>
