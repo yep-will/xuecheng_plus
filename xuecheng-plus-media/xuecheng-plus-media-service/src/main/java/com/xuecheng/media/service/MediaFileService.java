@@ -116,4 +116,14 @@ public interface MediaFileService {
                              int chunkTotal,
                              UploadFileParamsDto uploadFileParamsDto);
 
+
+    /**
+     * @param id 文件id
+     * @return com.xuecheng.media.model.po.MediaFiles 文件信息
+     * @description 根据id查询文件信息
+     * @author will
+     * @date 2023/2/21 23:42
+     */
+    MediaFiles getFileById(String id);
+
 }

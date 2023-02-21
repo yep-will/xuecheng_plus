@@ -260,10 +260,21 @@ public class MediaFileServiceImpl implements MediaFileService {
             mediaFiles.setCompanyId(companyId);
             mediaFiles.setBucket(bucket);
             mediaFiles.setFilePath(objectName);
-            mediaFiles.setUrl("/" + bucket + "/" + objectName);
             mediaFiles.setCreateDate(LocalDateTime.now());
             mediaFiles.setStatus("1");
             mediaFiles.setAuditStatus("002003");
+            // 获取扩展名
+            String extension = null;
+            String filename = uploadFileParamsDto.getFilename();
+            if (StringUtils.isNotEmpty(filename) && filename.contains(".")) {
+                extension = filename.substring(filename.lastIndexOf("."));
+            }
+            // 获取媒体类型
+            String mimeType = new CommonUtils().getMimeTypeByExtension(extension);
+            // 只有图片.mp4格式文件可以设置url, 否则设置为null后期处理
+            if (mimeType.contains("image") || mimeType.contains("mp4")) {
+                mediaFiles.setUrl("/" + bucket + "/" + objectName);
+            }
 
             //插入文件表
             mediaFilesMapper.insert(mediaFiles);
@@ -508,6 +519,28 @@ public class MediaFileServiceImpl implements MediaFileService {
                 tempMergeFile.delete();
             }
         }
+    }
+
+
+    /**
+     * @param id 文件id
+     * @return com.xuecheng.media.model.po.MediaFiles 文件信息
+     * @description 根据id查询文件信息
+     * @author will
+     * @date 2023/2/21 23:42
+     */
+    @Override
+    public MediaFiles getFileById(String id) {
+        MediaFiles mediaFiles = mediaFilesMapper.selectById(id);
+        if (null == mediaFiles) {
+            XueChengPlusException.cast("文件不存在");
+        }
+        String url = mediaFiles.getUrl();
+        if (StringUtils.isEmpty(url)) {
+            XueChengPlusException.cast("文件还没有处理, 请稍后预览");
+        }
+
+        return mediaFiles;
     }
 
 
