@@ -36,7 +36,7 @@ public class MinIOTest {
             //上传
             minioClient.uploadObject(uploadObjectArgs);
             System.out.println("上传成功了");
-            //浏览器直接访问 http://localhost:9000/testbucket/%E5%A3%81%E7%BA%B81.jpg
+            //浏览器直接访问 http://localhost:9000/testbucket/壁纸1.jpg
         } catch (Exception e) {
             System.out.println("上传失败");
         }
