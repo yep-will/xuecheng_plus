@@ -6,12 +6,14 @@ import com.xuecheng.base.exception.XueChengPlusException;
 import com.xuecheng.base.model.PageParams;
 import com.xuecheng.base.model.PageResult;
 import com.xuecheng.base.model.RestResponse;
-import com.xuecheng.base.utils.CommonUtils;
+import com.xuecheng.base.utils.CommonUtil;
 import com.xuecheng.media.mapper.MediaFilesMapper;
+import com.xuecheng.media.mapper.MediaProcessMapper;
 import com.xuecheng.media.model.dto.QueryMediaParamsDto;
 import com.xuecheng.media.model.dto.UploadFileParamsDto;
 import com.xuecheng.media.model.dto.UploadFileResultDto;
 import com.xuecheng.media.model.po.MediaFiles;
+import com.xuecheng.media.model.po.MediaProcess;
 import com.xuecheng.media.service.MediaFileService;
 import io.minio.GetObjectArgs;
 import io.minio.MinioClient;
@@ -49,6 +51,9 @@ public class MediaFileServiceImpl implements MediaFileService {
 
     @Autowired
     MinioClient minioClient;
+
+    @Autowired
+    MediaProcessMapper mediaProcessMapper;
 
     /**
      * 普通文件存储桶
@@ -180,7 +185,7 @@ public class MediaFileServiceImpl implements MediaFileService {
             //取objectName中的文件扩展名
             String extension = objectName.substring(objectName.lastIndexOf("."));
             //获取相应的资源媒体类型
-            contentType = new CommonUtils().getMimeTypeByExtension(extension);
+            contentType = new CommonUtil().getMimeTypeByExtension(extension);
         }
 
         try {
@@ -214,7 +219,8 @@ public class MediaFileServiceImpl implements MediaFileService {
      * @author will
      * @date 2023/2/21 15:58
      */
-    private void addMediaFilesToMinIO(String filePath, String bucket, String objectName) {
+    @Override
+    public void addMediaFilesToMinIO(String filePath, String bucket, String objectName) {
         try {
             UploadObjectArgs uploadObjectArgs = UploadObjectArgs.builder()
                     .bucket(bucket)
@@ -270,7 +276,7 @@ public class MediaFileServiceImpl implements MediaFileService {
                 extension = filename.substring(filename.lastIndexOf("."));
             }
             // 获取媒体类型
-            String mimeType = new CommonUtils().getMimeTypeByExtension(extension);
+            String mimeType = new CommonUtil().getMimeTypeByExtension(extension);
             // 只有图片.mp4格式文件可以设置url, 否则设置为null后期处理
             if (mimeType.contains("image") || mimeType.contains("mp4")) {
                 mediaFiles.setUrl("/" + bucket + "/" + objectName);
@@ -278,8 +284,15 @@ public class MediaFileServiceImpl implements MediaFileService {
 
             //插入文件表
             mediaFilesMapper.insert(mediaFiles);
-            //抛出异常, 制造异常
-            //int i = 1 / 0;
+
+            //对avi视频添加到待处理任务表
+            if ("video/x-msvideo".equals(mimeType)) {
+                MediaProcess mediaProcess = new MediaProcess();
+                BeanUtils.copyProperties(mediaFiles, mediaProcess);
+                //设置一个状态  1:未处理
+                mediaProcess.setStatus("1");
+                mediaProcessMapper.insert(mediaProcess);
+            }
         }
         return mediaFiles;
     }
@@ -589,6 +602,7 @@ public class MediaFileServiceImpl implements MediaFileService {
      * @author will
      * @date 2023/2/21 15:02
      */
+    @Override
     public File downloadFileFromMinIO(File file, String bucket, String objectName) {
         GetObjectArgs getObjectArgs = GetObjectArgs
                 .builder()

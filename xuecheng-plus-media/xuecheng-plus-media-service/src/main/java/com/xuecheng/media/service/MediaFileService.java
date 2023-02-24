@@ -9,6 +9,8 @@ import com.xuecheng.media.model.dto.UploadFileResultDto;
 import com.xuecheng.media.model.po.MediaFiles;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
+
 /**
  * @author Mr.M
  * @version 1.0
@@ -125,5 +127,29 @@ public interface MediaFileService {
      * @date 2023/2/21 23:42
      */
     MediaFiles getFileById(String id);
+
+
+    /**
+     * @param file       承接文件对象
+     * @param bucket     桶目录
+     * @param objectName 系统存储文件目录
+     * @return java.io.File
+     * @description 根据桶和文件路径从minio下载文件
+     * @author will
+     * @date 2023/2/21 15:02
+     */
+    File downloadFileFromMinIO(File file, String bucket, String objectName);
+
+
+    /**
+     * @param filePath   文件绝对路径
+     * @param bucket     桶目录
+     * @param objectName 存储在minIO上的路径名
+     * @return void
+     * @description 将文件上传到文件系统(重写)
+     * @author will
+     * @date 2023/2/21 15:58
+     */
+    void addMediaFilesToMinIO(String filePath, String bucket, String objectName);
 
 }
