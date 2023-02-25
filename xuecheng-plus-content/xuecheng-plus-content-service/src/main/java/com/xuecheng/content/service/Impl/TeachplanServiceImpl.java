@@ -10,12 +10,14 @@ import com.xuecheng.content.model.dto.TeachplanDto;
 import com.xuecheng.content.model.po.Teachplan;
 import com.xuecheng.content.model.po.TeachplanMedia;
 import com.xuecheng.content.service.TeachplanService;
+import com.xuecheng.media.model.dto.BindTeachplanMediaDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -184,6 +186,47 @@ public class TeachplanServiceImpl implements TeachplanService {
             }
             exchangeOrderby(teachplan, downTeachplan);
         }
+    }
+
+
+    /**
+     * @param bindTeachplanMediaDto 绑定参数
+     * @return com.xuecheng.content.model.po.TeachplanMedia
+     * @description 教学计划绑定媒资
+     * @author will
+     * @date 2023/2/25 19:42
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public TeachplanMedia associationMedia(BindTeachplanMediaDto bindTeachplanMediaDto) {
+        //教学计划的id
+        Long teachplanId = bindTeachplanMediaDto.getTeachplanId();
+        Teachplan teachplan = teachplanMapper.selectById(teachplanId);
+        //约束校验
+        //教学计划不存在无法绑定
+        if (null == teachplan) {
+            XueChengPlusException.cast("教学计划不存在");
+        }
+        //只有二级目录才可以绑定视频
+        Integer grade = teachplan.getGrade();
+        if (2 != grade) {
+            XueChengPlusException.cast("只有二级目录才可以绑定视频");
+        }
+
+        //删除原来的绑定关系
+        LambdaQueryWrapper<TeachplanMedia> lambdaQueryWrapper =
+                new LambdaQueryWrapper<TeachplanMedia>().eq(TeachplanMedia::getTeachplanId, teachplanId);
+        teachplanMediaMapper.delete(lambdaQueryWrapper);
+
+        //添加新的绑定关系
+        TeachplanMedia teachplanMedia = new TeachplanMedia();
+        teachplanMedia.setTeachplanId(teachplanId);
+        teachplanMedia.setMediaFileName(bindTeachplanMediaDto.getFileName());
+        teachplanMedia.setMediaId(bindTeachplanMediaDto.getMediaId());
+        teachplanMedia.setCreateDate(LocalDateTime.now());
+        teachplanMedia.setCourseId(teachplan.getCourseId());
+        teachplanMediaMapper.insert(teachplanMedia);
+        return teachplanMedia;
     }
 
 
