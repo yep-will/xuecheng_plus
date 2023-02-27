@@ -221,7 +221,7 @@ public class TeachplanServiceImpl implements TeachplanService {
         //添加新的绑定关系
         TeachplanMedia teachplanMedia = new TeachplanMedia();
         teachplanMedia.setTeachplanId(teachplanId);
-        teachplanMedia.setMediaFileName(bindTeachplanMediaDto.getFileName());
+        teachplanMedia.setMediaFilename(bindTeachplanMediaDto.getFileName());
         teachplanMedia.setMediaId(bindTeachplanMediaDto.getMediaId());
         teachplanMedia.setCreateDate(LocalDateTime.now());
         teachplanMedia.setCourseId(teachplan.getCourseId());
