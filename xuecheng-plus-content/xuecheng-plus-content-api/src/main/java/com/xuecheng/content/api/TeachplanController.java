@@ -100,4 +100,19 @@ public class TeachplanController {
         return teachplanService.associationMedia(bindTeachplanMediaDto);
     }
 
+
+    /**
+     * @param teachplanId 课程计划标识
+     * @param mediaId     媒资标识
+     * @return void
+     * @description 解除课程计划和媒资绑定
+     * @author will
+     * @date 2023/2/27 20:30
+     */
+    @ApiOperation(value = "解除课程计划和媒资绑定")
+    @DeleteMapping("/teachplan/association/media/{teachPlanId}/{mediaId}")
+    public void UnbundleTeachplanMedia(@PathVariable("teachPlanId") Long teachplanId, @PathVariable("mediaId") String mediaId) {
+        teachplanService.UnbundleTeachplanMedia(teachplanId, mediaId);
+    }
+
 }

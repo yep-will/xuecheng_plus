@@ -66,4 +66,15 @@ public interface TeachplanService {
      */
     TeachplanMedia associationMedia(BindTeachplanMediaDto bindTeachplanMediaDto);
 
+
+    /**
+     * @param teachplanId 课程计划标识
+     * @param mediaId     媒资标识
+     * @return void
+     * @description 解除课程计划-媒资绑定
+     * @author will
+     * @date 2023/2/27 20:09
+     */
+    void UnbundleTeachplanMedia(Long teachplanId, String mediaId);
+
 }

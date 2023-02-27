@@ -231,6 +231,27 @@ public class TeachplanServiceImpl implements TeachplanService {
 
 
     /**
+     * @param teachplanId 课程计划标识
+     * @param mediaId     媒资标识
+     * @return void
+     * @description 解除课程计划-媒资绑定
+     * @author will
+     * @date 2023/2/27 20:09
+     */
+    @Override
+    public void UnbundleTeachplanMedia(Long teachplanId, String mediaId) {
+        LambdaQueryWrapper<TeachplanMedia> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(TeachplanMedia::getTeachplanId, teachplanId);
+        queryWrapper.eq(TeachplanMedia::getMediaId, mediaId);
+        int delete = teachplanMediaMapper.delete(queryWrapper);
+        if (0 >= delete) {
+            log.warn("删除课程计划{}-媒资{}信息失败", teachplanId, mediaId);
+            XueChengPlusException.cast("删除课程计划-媒资信息失败");
+        }
+    }
+
+
+    /**
      * @param teachplan1 课程计划1
      * @param teachplan2 课程计划2
      * @return void
