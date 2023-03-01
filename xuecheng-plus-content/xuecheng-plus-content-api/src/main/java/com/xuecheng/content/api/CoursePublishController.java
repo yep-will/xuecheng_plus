@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -22,7 +24,7 @@ public class CoursePublishController {
 
 
     /**
-     * @param courseId  课程id
+     * @param courseId 课程id
      * @return org.springframework.web.servlet.ModelAndView
      * @description 获取课程预览信息模板引擎需要的模型数据
      * @author will
@@ -37,6 +39,21 @@ public class CoursePublishController {
         modelAndView.addObject("model", coursePreviewInfo);
         modelAndView.setViewName("course_template");
         return modelAndView;
+    }
+
+
+    /**
+     * @param courseId 课程id
+     * @return void
+     * @description 提交审核
+     * @author will
+     * @date 2023/3/1 21:17
+     */
+    @ResponseBody //将java对象转为json格式的数据
+    @PostMapping("/courseaudit/commit/{courseId}")
+    public void commitAudit(@PathVariable("courseId") Long courseId) {
+        Long companyId = 1232141425L;
+        coursePublishService.commitAudit(companyId, courseId);
     }
 
 }
