@@ -2,7 +2,6 @@ package com.xuecheng.search.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.xuecheng.base.model.PageParams;
-import com.xuecheng.base.model.PageResult;
 import com.xuecheng.search.dto.SearchCourseParamDto;
 import com.xuecheng.search.dto.SearchPageResultDto;
 import com.xuecheng.search.po.CourseIndex;
@@ -47,45 +46,54 @@ public class CourseSearchServiceImpl implements CourseSearchService {
 
     @Value("${elasticsearch.course.index}")
     private String courseIndexStore;
+
     @Value("${elasticsearch.course.source_fields}")
     private String sourceFields;
 
     @Autowired
     RestHighLevelClient client;
 
-    @Override
-    public SearchPageResultDto<CourseIndex> queryCoursePubIndex(PageParams pageParams, SearchCourseParamDto courseSearchParam) {
 
+    /**
+     * @param pageParams           分页参数
+     * @param searchCourseParamDto 搜索条件
+     * @return com.xuecheng.base.model.PageResult<com.xuecheng.search.po.CourseIndex> 课程列表
+     * @description 搜索课程列表
+     * @author will
+     * @date 2023/3/3 23:10
+     */
+    @Override
+    public SearchPageResultDto<CourseIndex> queryCoursePubIndex(PageParams pageParams, SearchCourseParamDto searchCourseParamDto) {
         //设置索引
         SearchRequest searchRequest = new SearchRequest(courseIndexStore);
 
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
-        //source源字段过虑
+        //source源字段过滤
         String[] sourceFieldsArray = sourceFields.split(",");
         searchSourceBuilder.fetchSource(sourceFieldsArray, new String[]{});
-        if (courseSearchParam == null) {
-            courseSearchParam = new SearchCourseParamDto();
+        if (searchCourseParamDto == null) {
+            searchCourseParamDto = new SearchCourseParamDto();
         }
         //关键字
-        if (StringUtils.isNotEmpty(courseSearchParam.getKeywords())) {
+        if (StringUtils.isNotEmpty(searchCourseParamDto.getKeywords())) {
             //匹配关键字
-            MultiMatchQueryBuilder multiMatchQueryBuilder = QueryBuilders.multiMatchQuery(courseSearchParam.getKeywords(), "name", "description");
+            MultiMatchQueryBuilder multiMatchQueryBuilder = QueryBuilders.multiMatchQuery(searchCourseParamDto.getKeywords(), "name", "description");
             //设置匹配占比
             multiMatchQueryBuilder.minimumShouldMatch("70%");
             //提升另个字段的Boost值
             multiMatchQueryBuilder.field("name", 10);
             boolQueryBuilder.must(multiMatchQueryBuilder);
         }
-        //过虑
-        if (StringUtils.isNotEmpty(courseSearchParam.getMt())) {
-            boolQueryBuilder.filter(QueryBuilders.termQuery("mtName", courseSearchParam.getMt()));
+        //过滤
+        if (StringUtils.isNotEmpty(searchCourseParamDto.getMt())) {
+            boolQueryBuilder.filter(QueryBuilders.termQuery("mtName", searchCourseParamDto.getMt()));
         }
-        if (StringUtils.isNotEmpty(courseSearchParam.getSt())) {
-            boolQueryBuilder.filter(QueryBuilders.termQuery("stName", courseSearchParam.getSt()));
+        if (StringUtils.isNotEmpty(searchCourseParamDto.getSt())) {
+            boolQueryBuilder.filter(QueryBuilders.termQuery("stName", searchCourseParamDto.getSt()));
         }
-        if (StringUtils.isNotEmpty(courseSearchParam.getGrade())) {
-            boolQueryBuilder.filter(QueryBuilders.termQuery("grade", courseSearchParam.getGrade()));
+        if (StringUtils.isNotEmpty(searchCourseParamDto.getGrade())) {
+            boolQueryBuilder.filter(QueryBuilders.termQuery("grade", searchCourseParamDto.getGrade()));
         }
         //分页
         Long pageNo = pageParams.getPageNo();
@@ -115,6 +123,7 @@ public class CourseSearchServiceImpl implements CourseSearchService {
             return new SearchPageResultDto<CourseIndex>(new ArrayList(), 0, 0, 0);
         }
 
+
         //结果集处理
         SearchHits hits = searchResponse.getHits();
         SearchHit[] searchHits = hits.getHits();
@@ -124,13 +133,10 @@ public class CourseSearchServiceImpl implements CourseSearchService {
         List<CourseIndex> list = new ArrayList<>();
 
         for (SearchHit hit : searchHits) {
-
             String sourceAsString = hit.getSourceAsString();
             CourseIndex courseIndex = JSON.parseObject(sourceAsString, CourseIndex.class);
-
             //取出source
             Map<String, Object> sourceAsMap = hit.getSourceAsMap();
-
             //课程id
             Long id = courseIndex.getId();
             //取出名称
@@ -146,14 +152,12 @@ public class CourseSearchServiceImpl implements CourseSearchService {
                         stringBuffer.append(str.string());
                     }
                     name = stringBuffer.toString();
-
                 }
             }
             courseIndex.setId(id);
             courseIndex.setName(name);
 
             list.add(courseIndex);
-
         }
         SearchPageResultDto<CourseIndex> pageResult = new SearchPageResultDto<>(list, totalHits.value, pageNo, pageSize);
 
@@ -179,8 +183,8 @@ public class CourseSearchServiceImpl implements CourseSearchService {
                 .field("stName")
                 .size(100)
         );
-
     }
+
 
     private List<String> getAggregation(Aggregations aggregations, String aggName) {
         // 4.1.根据聚合名称获取聚合结果
@@ -196,4 +200,5 @@ public class CourseSearchServiceImpl implements CourseSearchService {
         }
         return brandList;
     }
+
 }
