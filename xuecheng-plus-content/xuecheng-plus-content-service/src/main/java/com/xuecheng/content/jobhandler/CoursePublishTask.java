@@ -105,17 +105,26 @@ public class CoursePublishTask extends MessageProcessAbstract {
      * @param mqMessage 执行任务内容
      * @param courseId  课程id
      * @return void
-     * @description 将课程信息缓存至redis
+     * @description 向elasticsearch索引保存课程信息
      * @author will
      * @date 2023/3/3 13:01
      */
-    public void saveCourseCache(MqMessage mqMessage, long courseId) {
-        log.debug("将课程信息缓存至redis,课程id:{}", courseId);
-        try {
-            TimeUnit.SECONDS.sleep(2);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+    private void saveCourseIndex(MqMessage mqMessage, Long courseId) {
+        //任务id
+        Long id = mqMessage.getId();
+        //作消息幂等性处理：如果该阶段任务完成了不再处理直接返回
+        //获取第二阶段的状态
+        int stageTwo = this.getMqMessageService().getStageTwo(id);
+        if (stageTwo > 0) {
+            log.debug("当前阶段是创建课程索引,已经完成不再处理,任务信息:{}", mqMessage);
+            return;
         }
+
+        //调用service创建索引
+        coursePublishService.saveCourseIndex(courseId);
+
+        //给该阶段任务打上完成标记，完成第二阶段的任务
+        this.getMqMessageService().completedStageTwo(id);
     }
 
 
@@ -123,12 +132,12 @@ public class CoursePublishTask extends MessageProcessAbstract {
      * @param mqMessage 执行任务内容
      * @param courseId  课程id
      * @return void
-     * @description 保存课程索引信息
+     * @description 将课程信息缓存至redis
      * @author will
      * @date 2023/3/3 13:01
      */
-    public void saveCourseIndex(MqMessage mqMessage, long courseId) {
-        log.debug("保存课程索引信息,课程id:{}", courseId);
+    public void saveCourseCache(MqMessage mqMessage, long courseId) {
+        log.debug("将课程信息缓存至redis,课程id:{}", courseId);
         try {
             TimeUnit.SECONDS.sleep(2);
         } catch (InterruptedException e) {

@@ -64,4 +64,14 @@ public interface CoursePublishService {
      */
     void uploadCourseHtml(Long courseId, File file);
 
+
+    /**
+     * @param courseId 课程id
+     * @return java.lang.Boolean
+     * @description 向elasticsearch索引保存课程信息
+     * @author will
+     * @date 2023/3/3 23:53
+     */
+    Boolean saveCourseIndex(Long courseId);
+
 }

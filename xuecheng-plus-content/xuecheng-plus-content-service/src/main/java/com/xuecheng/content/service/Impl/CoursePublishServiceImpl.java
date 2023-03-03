@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.xuecheng.base.exception.XueChengPlusException;
 import com.xuecheng.content.config.MultipartSupportConfig;
 import com.xuecheng.content.feignclient.MediaServiceClient;
+import com.xuecheng.content.feignclient.SearchServiceClient;
+import com.xuecheng.content.feignclient.model.po.CourseIndex;
 import com.xuecheng.content.mapper.CourseBaseMapper;
 import com.xuecheng.content.mapper.CourseMarketMapper;
 import com.xuecheng.content.mapper.CoursePublishMapper;
@@ -74,6 +76,9 @@ public class CoursePublishServiceImpl implements CoursePublishService {
 
     @Autowired
     MediaServiceClient mediaServiceClient;
+
+    @Autowired
+    SearchServiceClient searchServiceClient;
 
 
     /**
@@ -349,5 +354,31 @@ public class CoursePublishServiceImpl implements CoursePublishService {
         }
     }
 
+
+    /**
+     * @param courseId 课程id
+     * @return java.lang.Boolean
+     * @description 向elasticsearch索引保存课程信息
+     * @author will
+     * @date 2023/3/3 23:53
+     */
+    @Override
+    public Boolean saveCourseIndex(Long courseId) {
+        //取出课程发布信息数据
+        CoursePublish coursePublish = coursePublishMapper.selectById(courseId);
+        //作异常处理
+        if (null == coursePublish) {
+            XueChengPlusException.cast("获取课程发布信息数据异常");
+        }
+        //拷贝至课程索引对象
+        CourseIndex courseIndex = new CourseIndex();
+        BeanUtils.copyProperties(coursePublish, courseIndex);
+        //远程调用搜索服务api添加课程信息到索引
+        Boolean result = searchServiceClient.add(courseIndex);
+        if (!result) {
+            XueChengPlusException.cast("创建课程索引失败");
+        }
+        return result;
+    }
 
 }
