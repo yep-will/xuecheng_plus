@@ -31,6 +31,7 @@
 
     <!-- 课程分类树型结构查询映射结果 -->
     <resultMap id="selectTreeNodesMap" type="com.xuecheng.content.model.dto.TeachplanDto">
+        <!-- 一级数据映射 -->
         <id column="one_id" property="id"></id>
         <result column="one_pname" property="pname"></result>
         <result column="one_parentid" property="parentid"/>
@@ -41,7 +42,9 @@
         <result column="one_orderby" property="orderby"/>
         <result column="one_courseId" property="courseId"/>
         <result column="one_coursePubId" property="coursePubId"/>
+        <!-- 一级中包含多个二级数据 -->
         <collection property="teachPlanTreeNodes" ofType="com.xuecheng.content.model.dto.TeachplanDto">
+            <!-- 二级数据映射 -->
             <id column="two_id" property="id"></id>
             <result column="two_pname" property="pname"></result>
             <result column="two_parentid" property="parentid"/>
@@ -52,10 +55,14 @@
             <result column="two_orderby" property="orderby"/>
             <result column="two_courseId" property="courseId"/>
             <result column="two_coursePubId" property="coursePubId"/>
-            <association property="teachplanMedia" javaType="com.xuecheng.content.model.po.TeachplanMedia">
-                <id column="teachplanMeidaId" property="id"></id>
-                <result column="mediaFileName" property="mediaFileName"></result>
-                <result column="mediaId" property="mediaId"></result>
+            <association property="teachplanMedia"
+                         javaType="com.xuecheng.content.model.po.TeachplanMedia">
+                <result column="teachplanMeidaId" property="id"/>
+                <result column="mediaFilename" property="mediaFilename"/>
+                <result column="mediaId" property="mediaId"/>
+                <result column="two_id" property="teachplanId"/>
+                <result column="two_courseId" property="courseId"/>
+                <result column="two_coursePubId" property="coursePubId"/>
             </association>
         </collection>
     </resultMap>
@@ -82,7 +89,7 @@
                two.orderby       two_orderby,
                two.course_id     two_courseId,
                two.course_pub_id two_coursePubId,
-               m.media_fileName  mediaFileName,
+               m.media_fileName  mediaFilename,
                m.id              teachplanMeidaId,
                m.media_id        mediaId
         FROM teachplan one

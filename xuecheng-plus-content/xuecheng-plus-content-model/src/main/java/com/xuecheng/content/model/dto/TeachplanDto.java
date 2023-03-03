@@ -18,22 +18,12 @@ import java.util.List;
 public class TeachplanDto extends Teachplan {
 
     /**
-     * 储存媒资文件名
-     */
-    private String mediaFileName;
-
-    /**
-     * 媒资id
-     */
-    private Long mediaId;
-
-    /**
      * 课程计划关联的媒资信息
      */
     TeachplanMedia teachplanMedia;
 
     /**
-     * 子目录(哪个鬼才命的名...)
+     * 子目录
      */
     List<TeachplanDto> teachPlanTreeNodes;
 

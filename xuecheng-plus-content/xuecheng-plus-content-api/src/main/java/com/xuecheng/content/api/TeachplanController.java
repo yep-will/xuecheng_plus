@@ -2,7 +2,9 @@ package com.xuecheng.content.api;
 
 import com.xuecheng.content.model.dto.SaveTeachplanDto;
 import com.xuecheng.content.model.dto.TeachplanDto;
+import com.xuecheng.content.model.po.TeachplanMedia;
 import com.xuecheng.content.service.TeachplanService;
+import com.xuecheng.media.model.dto.BindTeachplanMediaDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -71,7 +73,7 @@ public class TeachplanController {
 
 
     /**
-     * @param moveType 移动类型
+     * @param moveType    移动类型
      * @param teachplanId 课程计划id
      * @return void
      * @description 对课程计划进行上下移动
@@ -82,6 +84,35 @@ public class TeachplanController {
     @PostMapping("/teachplan/{moveType}/{teachplanId}")
     public void orderByTeachplan(@PathVariable String moveType, @PathVariable Long teachplanId) {
         teachplanService.orderByTeachplan(moveType, teachplanId);
+    }
+
+
+    /**
+     * @param bindTeachplanMediaDto 绑定参数
+     * @return com.xuecheng.content.model.po.TeachplanMedia
+     * @description 绑定课程计划和媒资信息
+     * @author will
+     * @date 2023/2/26 10:57
+     */
+    @ApiOperation(value = "课程计划和媒资信息绑定")
+    @PostMapping("/teachplan/association/media")
+    public TeachplanMedia associationMedia(@RequestBody BindTeachplanMediaDto bindTeachplanMediaDto) {
+        return teachplanService.associationMedia(bindTeachplanMediaDto);
+    }
+
+
+    /**
+     * @param teachplanId 课程计划标识
+     * @param mediaId     媒资标识
+     * @return void
+     * @description 解除课程计划和媒资绑定
+     * @author will
+     * @date 2023/2/27 20:30
+     */
+    @ApiOperation(value = "解除课程计划和媒资绑定")
+    @DeleteMapping("/teachplan/association/media/{teachPlanId}/{mediaId}")
+    public void UnbundleTeachplanMedia(@PathVariable("teachPlanId") Long teachplanId, @PathVariable("mediaId") String mediaId) {
+        teachplanService.UnbundleTeachplanMedia(teachplanId, mediaId);
     }
 
 }
