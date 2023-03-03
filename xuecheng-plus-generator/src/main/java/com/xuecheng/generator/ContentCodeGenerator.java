@@ -24,15 +24,15 @@ public class ContentCodeGenerator {
     private static final String DATA_SOURCE_PASSWORD = "root";
     //生成的表
     private static final String[] TABLE_NAMES = new String[]{
-//			"mq_message",
-//			"mq_message_history"
+			"mq_message",
+			"mq_message_history"
 /*            "course_base",
             "course_market",
             "teachplan",
             "teachplan_media",
             "course_teacher"*/
-			 "course_publish",
-			 "course_publish_pre"
+/*			 "course_publish",
+			 "course_publish_pre"*/
 //			"course_category"
     };
 
