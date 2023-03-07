@@ -13,7 +13,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 @Configuration
 public class TokenConfig {
 
-    //jwt签名密钥,与认证服务保持一致(这里使用对称加密)
+    //JWT签名密钥,与认证服务保持一致(这里使用对称加密)
     private String SIGNING_KEY = "mq123";
 
     @Bean

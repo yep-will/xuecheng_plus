@@ -12,6 +12,7 @@ import com.xuecheng.content.service.CourseBaseInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -73,6 +74,9 @@ public class CourseBaseInfoController {
     @ApiOperation("根据课程id查询课程信息接口")
     @GetMapping("/course/{courseId}")
     public CourseBaseInfoDto getCourseBaseById(@PathVariable Long courseId) {
+        //取出当前用户身份
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        System.out.println(principal);  //打印zhangsan
         return courseBaseInfoService.getCourseBaseInfo(courseId);
     }
 
@@ -94,9 +98,9 @@ public class CourseBaseInfoController {
 
 
     /**
-     * @param courseId  课程id
+     * @param courseId 课程id
      * @return void
-     * @description 删除课程(包含基本信息、营销信息、课程计划、课程教师)
+     * @description 删除课程(包含基本信息 、 营销信息 、 课程计划 、 课程教师)
      * @author will
      * @date 2023/2/13 22:44
      */
