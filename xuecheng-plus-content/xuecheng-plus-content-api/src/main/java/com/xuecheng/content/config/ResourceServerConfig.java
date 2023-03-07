@@ -16,7 +16,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 @Configuration
 @EnableResourceServer
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
-public class ResouceServerConfig extends ResourceServerConfigurerAdapter {
+public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     //资源服务标识(与AutoorizationServer中的client.resourceIds一致)
     public static final String RESOURCE_ID = "xuecheng-plus";
@@ -36,7 +36,7 @@ public class ResouceServerConfig extends ResourceServerConfigurerAdapter {
         http.csrf().disable()
                 .authorizeRequests()
                 //所有/r/**和/course/**的请求必须认证通过，即必须携带JWT令牌才能访问
-                .antMatchers("/r/**", "/course/**").authenticated()
+                //.antMatchers("/r/**", "/course/**").authenticated()
                 .anyRequest().permitAll()
         ;
     }
