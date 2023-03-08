@@ -1,11 +1,9 @@
 package com.xuecheng.ucenter.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.xuecheng.ucenter.mapper.XcUserMapper;
 import com.xuecheng.ucenter.model.dto.AuthParamsDto;
 import com.xuecheng.ucenter.model.dto.XcUserExt;
-import com.xuecheng.ucenter.model.po.XcUser;
 import com.xuecheng.ucenter.service.AuthService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,31 +60,35 @@ public class UserServiceImpl implements UserDetailsService {
         //根据认证类型从Spring容器取出指定的bean
         String beanName = authType + "_authservice";
         AuthService authService = applicationContext.getBean(beanName, AuthService.class);
+
         //调用统一execute方法完成认证
-        XcUserExt execute = authService.execute(authParamsDto);
+        XcUserExt xcUserExt = authService.execute(authParamsDto);
 
-        //用户名/账号
-        String username = authParamsDto.getUsername();
-        //从数据库查询信息
-        XcUser user = xcUserMapper.selectOne(new LambdaQueryWrapper<XcUser>().eq(XcUser::getUsername, username));
-        if (null == user) {
-            //返回空表示用户不存在
-            //返回什么的逻辑要看已经给出的框架逻辑，
-            //查看源代码DaoAuthenticationProvider得知此时应该返回null
-            return null;
-        }
+        //认证完成
+        //封装xcUserExt用户信息为UserDetails
+        UserDetails userPrincipal = getUserPrincipal(xcUserExt);
 
-        //取出数据库存储的正确密码
-        String password_DB = user.getPassword();
+        return userPrincipal;
+    }
+
+
+    /**
+     * @param xcUserExt 用户id，主键
+     * @return org.springframework.security.core.userdetails.UserDetails 用户信息
+     * @description 封装xcUserExt用户信息为UserDetails
+     * @author will
+     * @date 2023/3/8 23:01
+     */
+    public UserDetails getUserPrincipal(XcUserExt xcUserExt) {
+        String password = xcUserExt.getPassword();
         //用户权限,如果不加会报错Cannot pass a null GrantedAuthority collection
         String[] authorities = {"test"};
         //为了安全在令牌中不放密码(令牌不能存放敏感信息)
-        user.setPassword(null);
+        xcUserExt.setPassword(null);
         //将user对象转json
-        String userJson = JSON.toJSONString(user);
+        String userJson = JSON.toJSONString(xcUserExt);
         //创建UserDetails对象,权限信息待实现授权功能时再向UserDetail中加入
-        UserDetails userDetails = User.withUsername(userJson).password(password_DB).authorities(authorities).build();
-
+        UserDetails userDetails = User.withUsername(userJson).password(password).authorities(authorities).build();
         return userDetails;
     }
 
