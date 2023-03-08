@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -37,7 +38,8 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
                 // client_id（客户端id，可以是浏览器，也可以是手机）
                 .withClient("XcWebApp")
                 // 客户端密钥
-                .secret("XcWebApp")
+                //.secret("XcWebApp")
+                .secret(new BCryptPasswordEncoder().encode("XcWebApp"))
                 // .secret(new BCryptPasswordEncoder().encode("XcWebApp"))//客户端密钥
                 // 资源列表
                 .resourceIds("xuecheng-plus")
