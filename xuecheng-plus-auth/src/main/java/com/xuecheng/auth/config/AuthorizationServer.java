@@ -52,7 +52,6 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
         ;
     }
 
-
     //令牌端点的访问配置（允许什么样的规则来申请令牌）
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {

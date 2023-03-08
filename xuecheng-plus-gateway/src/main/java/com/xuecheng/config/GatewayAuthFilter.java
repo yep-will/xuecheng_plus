@@ -56,7 +56,6 @@ public class GatewayAuthFilter implements GlobalFilter, Ordered {
     @Autowired
     private TokenStore tokenStore;
 
-
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         String requestUrl = exchange.getRequest().getPath().value();
@@ -105,7 +104,6 @@ public class GatewayAuthFilter implements GlobalFilter, Ordered {
         return token;
     }
 
-
     private Mono<Void> buildReturnMono(String error, ServerWebExchange exchange) {
         ServerHttpResponse response = exchange.getResponse();
         String jsonString = JSON.toJSONString(new RestErrorResponse(error));
@@ -116,9 +114,9 @@ public class GatewayAuthFilter implements GlobalFilter, Ordered {
         return response.writeWith(Mono.just(buffer));
     }
 
-
     @Override
     public int getOrder() {
         return 0;
     }
+
 }

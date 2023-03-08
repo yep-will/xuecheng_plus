@@ -6,11 +6,8 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 /**
  * @author Mr.M
@@ -40,7 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      * @author will
      * @date 2023/3/6 23:00
      */
-    @Bean
+/*    @Bean
     @Override
     public UserDetailsService userDetailsService() {
         //这里配置用户信息,这里暂时使用这种方式将用户存储在内存中
@@ -50,7 +47,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         manager.createUser(User.withUsername("zhangsan").password("123").authorities("p1").build());
         manager.createUser(User.withUsername("lisi").password("456").authorities("p2").build());
         return manager;
-    }
+    }*/
 
     @Bean
     public PasswordEncoder passwordEncoder() {

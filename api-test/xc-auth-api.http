@@ -4,7 +4,7 @@
 POST {{auth_host}}/auth/oauth/token?client_id=XcWebApp&client_secret=XcWebApp&grant_type=authorization_code&code=oU6nHA&redirect_uri=http://www.xuecheng-plus.com
 
 ### 密码模式申请令牌
-POST {{auth_host}}/auth/oauth/token?client_id=XcWebApp&client_secret=XcWebApp&grant_type=password&username=zhangsan&password=123
+POST {{auth_host}}/auth/oauth/token?client_id=XcWebApp&client_secret=XcWebApp&grant_type=password&username=itcast&password=1234
 
 ### 校验jwt令牌
 POST {{auth_host}}/auth/oauth/check_token?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsieHVlY2hlbmctcGx1cyJdLCJ1c2VyX25hbWUiOiJ6aGFuZ3NhbiIsInNjb3BlIjpbImFsbCJdLCJleHAiOjE2NzgxODcxMjUsImF1dGhvcml0aWVzIjpbInAxIl0sImp0aSI6IjQ5Zjk4ZjQxLWUyYmQtNGZiNy1iNjk3LTcyYzEzMzBhZjFiNiIsImNsaWVudF9pZCI6IlhjV2ViQXBwIn0.vjjswLV05wSe-RQPMnUFUR1KO4ghahwz4iKvZDhC6ng
