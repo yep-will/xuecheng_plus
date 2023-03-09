@@ -33,8 +33,9 @@ public class UserServiceImpl implements UserDetailsService {
     @Autowired
     ApplicationContext applicationContext;
 
-    @Autowired
-    AuthService authService;
+    //不使用：多个AuthService实例无法自动装配，方法中也不使用
+    //@Autowired
+    //AuthService authService;
 
     /**
      * @param s 传入的是AuthParamsDto类型的json数据
@@ -63,7 +64,7 @@ public class UserServiceImpl implements UserDetailsService {
 
         //调用统一execute方法完成认证
         //XcUserExt xcUserExt = authService.execute(authParamsDto);
-        //为方便开发这里调用不需要校验验证码的execute方法完成验证，使用强制转换
+        //为方便开发，账号密码认证调用不需要校验验证码的execute方法完成验证，使用强制转换
         XcUserExt xcUserExt = null;
         if (beanName.equals("password_authservice")) {
             PasswordAuthServiceImpl passwordAuthService = (PasswordAuthServiceImpl) authService;
