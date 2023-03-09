@@ -1,12 +1,14 @@
 package com.xuecheng.ucenter.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.xuecheng.ucenter.feignclient.CheckCodeClient;
 import com.xuecheng.ucenter.mapper.XcUserMapper;
 import com.xuecheng.ucenter.model.dto.AuthParamsDto;
 import com.xuecheng.ucenter.model.dto.XcUserExt;
 import com.xuecheng.ucenter.model.po.XcUser;
 import com.xuecheng.ucenter.service.AuthService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,38 +30,43 @@ public class PasswordAuthServiceImpl implements AuthService {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-/*    @Autowired
-    CheckCodeClient checkCodeClient;*/
+    @Autowired
+    CheckCodeClient checkCodeClient;
 
-    //实现账号和密码认证
+    /**
+     * @param authParamsDto 统一认证入口后统一提交的数据
+     * @return com.xuecheng.ucenter.model.dto.XcUserExt
+     * @description 实现账号和密码认证
+     * @author will
+     * @date 2023/3/9 18:37
+     */
     @Override
     public XcUserExt execute(AuthParamsDto authParamsDto) {
 
-/*        //得到验证码
+        //获取输入的验证码
         String checkcode = authParamsDto.getCheckcode();
+        //验证码对应的key
         String checkcodekey = authParamsDto.getCheckcodekey();
         if (StringUtils.isBlank(checkcodekey) || StringUtils.isBlank(checkcode)) {
             throw new RuntimeException("验证码为空");
-        }*/
+        }
 
- /*       //校验验证码,请求验证码服务进行校验
+        //远程调用验证码服务接口去校验验证码
         Boolean result = checkCodeClient.verify(checkcodekey, checkcode);
         if (result == null || !result) {
-            throw new RuntimeException("验证码错误");
-        }*/
+            throw new RuntimeException("验证码输入错误");
+        }
 
         //账号
         String username = authParamsDto.getUsername();
-        //从数据库查询用户信息
+        //根据username从数据库查询用户信息
         XcUser xcUser = userMapper.selectOne(new LambdaQueryWrapper<XcUser>().eq(XcUser::getUsername, username));
         if (xcUser == null) {
             //账号不存在
             throw new RuntimeException("账号不存在");
         }
         //比对密码
-        //正确的密码(加密后)
         String passwordDB = xcUser.getPassword();
-        //输入的密码
         String passwordInput = authParamsDto.getPassword();
         boolean matches = passwordEncoder.matches(passwordInput, passwordDB);
         if (!matches) {

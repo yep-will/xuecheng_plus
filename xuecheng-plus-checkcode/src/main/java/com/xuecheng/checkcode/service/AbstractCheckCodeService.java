@@ -61,8 +61,10 @@ public abstract class AbstractCheckCodeService implements CheckCodeService {
     }
 
 
+    @Override
     public abstract CheckCodeResultDto generate(CheckCodeParamsDto checkCodeParamsDto);
 
+    @Override
     public boolean verify(String key, String code) {
         if (StringUtils.isBlank(key) || StringUtils.isBlank(code)) {
             return false;

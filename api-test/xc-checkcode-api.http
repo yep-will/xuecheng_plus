@@ -2,4 +2,4 @@
 POST {{checkcode_host}}/checkcode/pic
 
 ### 校验验证码
-POST {{checkcode_host}}/checkcode/verify?key=checkcode:45ebb21299354a8bbe3de137dac17c8b&code=vuva
+POST {{checkcode_host}}/checkcode/verify?key=checkcode:0df6ab89e91b4f9d9f107b154f33ebeb&code=xog3
