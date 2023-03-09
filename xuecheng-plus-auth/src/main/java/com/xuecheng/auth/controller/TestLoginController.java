@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Slf4j
 @RestController
-public class LoginController {
+public class TestLoginController {
 
     @Autowired
     XcUserMapper userMapper;

@@ -63,9 +63,8 @@ public class UserServiceImpl implements UserDetailsService {
 
         //调用统一execute方法完成认证
         //XcUserExt xcUserExt = authService.execute(authParamsDto);
-
         //为方便开发这里调用不需要校验验证码的execute方法完成验证
-        XcUserExt xcUserExt = authService.executeWithoutCheckCode(authParamsDto);
+        XcUserExt xcUserExt = new PasswordAuthServiceImpl().executeWithoutCheckCode(authParamsDto);
 
         //认证完成
         //封装xcUserExt用户信息为UserDetails

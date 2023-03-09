@@ -20,14 +20,4 @@ public interface AuthService {
      */
     XcUserExt execute(AuthParamsDto authParamsDto);
 
-
-    /**
-     * @param authParamsDto 认证参数
-     * @return com.xuecheng.ucenter.model.dto.XcUserExt 用户信息
-     * @description 不校验验证码认证方法——便于开发
-     * @author will
-     * @date 2023/3/9 19:14
-     */
-    XcUserExt executeWithoutCheckCode(AuthParamsDto authParamsDto);
-
 }

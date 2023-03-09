@@ -85,7 +85,6 @@ public class PasswordAuthServiceImpl implements AuthService {
      * @author will
      * @date 2023/3/9 19:14
      */
-    @Override
     public XcUserExt executeWithoutCheckCode(AuthParamsDto authParamsDto) {
 
         //账号
