@@ -76,4 +76,35 @@ public class PasswordAuthServiceImpl implements AuthService {
         BeanUtils.copyProperties(xcUser, xcUserExt);
         return xcUserExt;
     }
+
+
+    /**
+     * @param authParamsDto 认证参数
+     * @return com.xuecheng.ucenter.model.dto.XcUserExt 用户信息
+     * @description 不校验验证码认证方法——便于开发
+     * @author will
+     * @date 2023/3/9 19:14
+     */
+    @Override
+    public XcUserExt executeWithoutCheckCode(AuthParamsDto authParamsDto) {
+
+        //账号
+        String username = authParamsDto.getUsername();
+        //根据username从数据库查询用户信息
+        XcUser xcUser = userMapper.selectOne(new LambdaQueryWrapper<XcUser>().eq(XcUser::getUsername, username));
+        if (xcUser == null) {
+            //账号不存在
+            throw new RuntimeException("账号不存在");
+        }
+        //比对密码
+        String passwordDB = xcUser.getPassword();
+        String passwordInput = authParamsDto.getPassword();
+        boolean matches = passwordEncoder.matches(passwordInput, passwordDB);
+        if (!matches) {
+            throw new RuntimeException("账号或密码错误");
+        }
+        XcUserExt xcUserExt = new XcUserExt();
+        BeanUtils.copyProperties(xcUser, xcUserExt);
+        return xcUserExt;
+    }
 }
