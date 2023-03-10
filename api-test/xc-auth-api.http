@@ -1,0 +1,25 @@
+### 授权码模式
+### 第一步申请授权码(浏览器请求)/oauth/authorize?client_id=c1&response_type=code&scope=all&redirect_uri=http://www.xuecheng-plus.com
+### 第二步申请令牌
+POST {{auth_host}}/auth/oauth/token?client_id=XcWebApp&client_secret=XcWebApp&grant_type=authorization_code&code=oU6nHA&redirect_uri=http://www.xuecheng-plus.com
+
+### 密码模式申请令牌
+POST {{auth_host}}/auth/oauth/token?client_id=XcWebApp&client_secret=XcWebApp&grant_type=password&username=itcast&password=123
+
+### 校验jwt令牌
+POST {{auth_host}}/auth/oauth/check_token?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsieHVlY2hlbmctcGx1cyJdLCJ1c2VyX25hbWUiOiJ7XCJiaXJ0aGRheVwiOlwiMjAyMi0wOS0yOFQxOToyODo0NlwiLFwiY3JlYXRlVGltZVwiOlwiMjAyMi0wOS0yOFQwODozMjowM1wiLFwiaWRcIjpcIjUwXCIsXCJuYW1lXCI6XCLlrabnlJ8xXCIsXCJuaWNrbmFtZVwiOlwi5aSn5rC054mbXCIsXCJzZXhcIjpcIjFcIixcInN0YXR1c1wiOlwiMVwiLFwidXNlcm5hbWVcIjpcInN0dTFcIixcInVzZXJwaWNcIjpcImh0dHA6Ly9maWxlLnh1ZWNoZW5nLXBsdXMuY29tL2RkZGZcIixcInV0eXBlXCI6XCIxMDEwMDFcIn0iLCJzY29wZSI6WyJhbGwiXSwiZXhwIjoxNjc4Mjg1ODIzLCJhdXRob3JpdGllcyI6WyJ0ZXN0Il0sImp0aSI6IjljODVhNWZjLTRhZTYtNGM2Zi04YWMzLTY1ODE2OGIxMmJkZiIsImNsaWVudF9pZCI6IlhjV2ViQXBwIn0.8-xFaycTDSYR6ujhm_8wGLZXPFCrUfOYJJApwNHWhI8
+
+### 不携带token访问资源服务
+GET http://localhost:63040/content/course/2
+
+### 携带token访问资源服务
+GET http://localhost:63040/content/course/2
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsieHVlY2hlbmctcGx1cyJdLCJ1c2VyX25hbWUiOiJ7XCJjZWxscGhvbmVcIjpcIjEyMzQ1XCIsXCJjcmVhdGVUaW1lXCI6XCIyMDIyLTA5LTI4VDA4OjMyOjAzXCIsXCJlbWFpbFwiOlwiXCIsXCJpZFwiOlwiNDlcIixcIm5hbWVcIjpcInRlc3QwMlwiLFwic2V4XCI6XCIxXCIsXCJzdGF0dXNcIjpcIjFcIixcInVzZXJuYW1lXCI6XCJpdGNhc3RcIixcInV0eXBlXCI6XCIxMDEwMDJcIn0iLCJzY29wZSI6WyJhbGwiXSwiZXhwIjoxNjc4MjY4MjQ4LCJhdXRob3JpdGllcyI6WyJ0ZXN0Il0sImp0aSI6ImQyNWY2YTQ0LWU5ZjEtNDUwMS05NWUwLTlhYzI2OWQ2NjIyNiIsImNsaWVudF9pZCI6IlhjV2ViQXBwIn0.3xJWUVdLNQGjcDe2g1m9G0ZfpYJQpPi0SA5Wb0Le0Qo
+
+### 通过网关访问资源服务
+GET http://localhost:63010/content/course/2
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsieHVlY2hlbmctcGx1cyJdLCJ1c2VyX25hbWUiOiJ6aGFuZ3NhbiIsInNjb3BlIjpbImFsbCJdLCJleHAiOjE2NzgyMDI2NTIsImF1dGhvcml0aWVzIjpbInAxIl0sImp0aSI6ImMyYjZiZTVlLTBmNGMtNGNhOS1iNjgzLTIzOGZhNGU3NDA0ZSIsImNsaWVudF9pZCI6IlhjV2ViQXBwIn0.xx_v28e3S2FFNHxNbKgwO1eNNlvQKbM5Yvbk8EyFw6U
+
+################扩展认证请求参数后######################
+### 密码模式申请令牌
+POST {{auth_host}}/auth/oauth/token?client_id=XcWebApp&client_secret=XcWebApp&grant_type=password&username={"username":"itcast","password":"123","authType":"password"}
