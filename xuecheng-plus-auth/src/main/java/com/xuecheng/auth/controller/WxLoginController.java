@@ -33,7 +33,7 @@ public class WxLoginController {
         }
 
         String username = xcUser.getUsername();
-        //用户登录完成，直接重定向；重定向后进入统一认证入口，执行相应的execute方法
+        //用户登录完成，直接重定向；重定向后进入统一认证入口UserServiceImpl，执行相应的execute方法
         return "redirect:http://www.xuecheng-plus.com/sign.html?username=" + username + "&authType=wx";
     }
 
