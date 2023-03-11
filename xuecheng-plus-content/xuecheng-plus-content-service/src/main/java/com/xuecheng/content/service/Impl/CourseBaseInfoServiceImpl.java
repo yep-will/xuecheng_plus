@@ -52,13 +52,14 @@ public class CourseBaseInfoServiceImpl implements CourseBaseInfoService {
     /**
      * @param pageParams           分页参数
      * @param queryCourseParamsDto 查询条件
+     * @param companyId            机构id
      * @return com.xuecheng.base.model.PageResult<com.xuecheng.content.model.po.CourseBase>
      * @description 课程查询接口实现方法
      * @author will
      * @date 2023/2/7 21:44
      */
     @Override
-    public PageResult<CourseBase> queryCourseBaseList(PageParams pageParams, QueryCourseParamsDto queryCourseParamsDto) {
+    public PageResult<CourseBase> queryCourseBaseList(Long companyId, PageParams pageParams, QueryCourseParamsDto queryCourseParamsDto) {
         //构建查询条件对象
         LambdaQueryWrapper<CourseBase> queryWrapper = new LambdaQueryWrapper<>();
         //构建查询条件,根据课程名称查询
@@ -67,6 +68,8 @@ public class CourseBaseInfoServiceImpl implements CourseBaseInfoService {
         queryWrapper.eq(StringUtils.isNotEmpty(queryCourseParamsDto.getAuditStatus()), CourseBase::getAuditStatus, queryCourseParamsDto.getAuditStatus());
         //构建查询条件,根据课程发布状态查询
         queryWrapper.eq(StringUtils.isNotEmpty(queryCourseParamsDto.getPublishStatus()), CourseBase::getStatus, queryCourseParamsDto.getPublishStatus());
+        //构建查询条件,根据机构id查询
+        queryWrapper.eq(CourseBase::getCompanyId, companyId);
 
         //分页对象
         Page<CourseBase> page = new Page<>(pageParams.getPageNo(), pageParams.getPageSize());
@@ -179,7 +182,7 @@ public class CourseBaseInfoServiceImpl implements CourseBaseInfoService {
      * @param companyId 机构id
      * @param dto       课程基本信息
      * @return com.xuecheng.content.model.dto.CourseBaseInfoDto
-     * @description 更新课程(基本信息+营销信息)
+     * @description 更新课程(基本信息 + 营销信息)
      * @author will
      * @date 2023/2/9 12:05
      */
@@ -228,7 +231,7 @@ public class CourseBaseInfoServiceImpl implements CourseBaseInfoService {
      * @param companyId 机构id
      * @param courseId  课程id
      * @return void
-     * @description 删除课程(包含基本信息、营销信息、课程计划、课程教师)
+     * @description 删除课程(包含基本信息 、 营销信息 、 课程计划 、 课程教师)
      * @author will
      * @date 2023/2/13 22:17
      */
