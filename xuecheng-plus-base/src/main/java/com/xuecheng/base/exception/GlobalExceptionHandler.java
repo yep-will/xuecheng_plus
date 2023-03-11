@@ -22,6 +22,26 @@ import java.util.List;
 @ControllerAdvice//控制器增强
 public class GlobalExceptionHandler {
 
+    /**
+     * @param e Exception类型异常
+     * @return com.xuecheng.base.exception.RestErrorResponse
+     * @description 捕获不可预知异常 Exception
+     * @author will
+     * @date 2023/3/11 11:10
+     */
+    @ResponseBody//将信息返回为 json格式
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)//状态码返回500
+    public RestErrorResponse doException(Exception e) {
+
+        log.error("捕获异常：{}", e.getMessage());
+        e.printStackTrace();
+        if (e.getMessage().equals("不允许访问")) {
+            return new RestErrorResponse("没有权限操作此功能");
+        }
+        return new RestErrorResponse(CommonError.UNKNOWN_ERROR.getErrMessage());
+    }
+
 
     /**
      * @param e 拦截的异常对象
@@ -38,23 +58,6 @@ public class GlobalExceptionHandler {
         e.printStackTrace();
         String errMessage = e.getErrMessage();
         return new RestErrorResponse(errMessage);
-    }
-
-
-    /**
-     * @param e 拦截的异常对象
-     * @return com.xuecheng.base.exception.RestErrorResponse
-     * @description 捕获不可预知异常Exception
-     * @author will
-     * @date 2023/2/11 12:54
-     */
-    @ResponseBody    //将信息返回为json格式
-    @ExceptionHandler(Exception.class)    //此方法捕获Exception异常
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)    //状态码返回500
-    public RestErrorResponse doException(Exception e) {
-        log.error("捕获异常：{}", e.getMessage());
-        e.printStackTrace();
-        return new RestErrorResponse(CommonError.UNKNOWN_ERROR.getErrMessage());
     }
 
 
