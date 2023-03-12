@@ -158,6 +158,9 @@ Content-Type: application/json
 }
 
 
-
 ### 删除课程教师
 DELETE  {{content_host}}/content/courseTeacher/course/24/118
+
+
+### 根据课程id查询课程发布信息
+GET {{content_host}}/content/r/coursepublish/123

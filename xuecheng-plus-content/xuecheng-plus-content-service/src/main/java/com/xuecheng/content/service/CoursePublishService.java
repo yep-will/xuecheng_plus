@@ -1,6 +1,7 @@
 package com.xuecheng.content.service;
 
 import com.xuecheng.content.model.dto.CoursePreviewDto;
+import com.xuecheng.content.model.po.CoursePublish;
 
 import java.io.File;
 
@@ -73,5 +74,15 @@ public interface CoursePublishService {
      * @date 2023/3/3 23:53
      */
     Boolean saveCourseIndex(Long courseId);
+
+
+    /**
+     * @param courseId 课程id
+     * @return com.xuecheng.content.model.po.CoursePublish
+     * @description 根据课程id查询课程发布信息
+     * @author will
+     * @date 2023/3/12 22:15
+     */
+    CoursePublish getCoursePublish(Long courseId);
 
 }

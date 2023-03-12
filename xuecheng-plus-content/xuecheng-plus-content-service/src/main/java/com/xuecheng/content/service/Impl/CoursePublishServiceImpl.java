@@ -381,4 +381,18 @@ public class CoursePublishServiceImpl implements CoursePublishService {
         return result;
     }
 
+
+    /**
+     * @param courseId  课程id
+     * @return com.xuecheng.content.model.po.CoursePublish
+     * @description 根据课程id查询课程发布信息
+     * @author will
+     * @date 2023/3/12 22:15
+     */
+    @Override
+    public CoursePublish getCoursePublish(Long courseId){
+        CoursePublish coursePublish = coursePublishMapper.selectById(courseId);
+        return coursePublish ;
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.xuecheng.content.api;
 
 import com.xuecheng.content.model.dto.CoursePreviewDto;
+import com.xuecheng.content.model.po.CoursePublish;
 import com.xuecheng.content.service.CoursePublishService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,5 +74,22 @@ public class CoursePublishController {
         Long companyId = 1232141425L;
         coursePublishService.publish(companyId, courseId);
     }
+
+
+    /**
+     * @param courseId 课程id
+     * @return com.xuecheng.content.model.po.CoursePublish
+     * @description 根据课程id查询课程发布信息
+     * @author will
+     * @date 2023/3/12 22:16
+     */
+    @ApiOperation("查询课程发布信息")
+    @ResponseBody
+    @GetMapping("/r/coursepublish/{courseId}")//把/r开头的请求路径作为服务内部去调用的接口（内部之间调用不用传令牌）
+    public CoursePublish getCoursepublish(@PathVariable("courseId") Long courseId) {
+        CoursePublish coursePublish = coursePublishService.getCoursePublish(courseId);
+        return coursePublish;
+    }
+
 
 }
