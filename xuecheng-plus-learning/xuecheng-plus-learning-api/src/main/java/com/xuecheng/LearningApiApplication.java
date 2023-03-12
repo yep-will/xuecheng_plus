@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.client.OkHttp3ClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
-@EnableFeignClients(basePackages={"com.xuecheng.*.feignclient"})
+@EnableFeignClients(basePackages = {"com.xuecheng.*.feignclient"})
 @SpringBootApplication
 public class LearningApiApplication {
 
@@ -16,7 +16,7 @@ public class LearningApiApplication {
     }
 
     @Bean
-    public RestTemplate getRestTemplate(){
+    public RestTemplate getRestTemplate() {
         return new RestTemplate(new OkHttp3ClientHttpRequestFactory());
     }
 
