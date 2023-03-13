@@ -6,15 +6,10 @@ import com.xuecheng.learning.service.MyCourseTablesService;
 import com.xuecheng.messagesdk.model.po.MqMessage;
 import com.xuecheng.messagesdk.service.MqMessageService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.core.ExchangeTypes;
-import org.springframework.amqp.rabbit.annotation.Exchange;
-import org.springframework.amqp.rabbit.annotation.Queue;
-import org.springframework.amqp.rabbit.annotation.QueueBinding;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 /**
  * @author Mr.M
@@ -51,11 +46,11 @@ public class ReceivePayNotifyService {
         String choosecourseId = mqMessage.getBusinessKey1();
 
         //添加选课
-        boolean b = myCourseTablesService.saveChooseCourseStauts(choosecourseId);
-        if(b){
+        /////////////////////////////////////////////////////////////boolean b = myCourseTablesService.saveChooseCourseStauts(choosecourseId);
+        /*if(b){
             //向订单服务回复
             send(mqMessage);
-        }
+        }*/
 
     }
 
