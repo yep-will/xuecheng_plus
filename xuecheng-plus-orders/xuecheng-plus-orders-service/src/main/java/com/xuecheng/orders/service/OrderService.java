@@ -2,6 +2,7 @@ package com.xuecheng.orders.service;
 
 import com.xuecheng.orders.model.dto.AddOrderDto;
 import com.xuecheng.orders.model.dto.PayRecordDto;
+import com.xuecheng.orders.model.po.XcPayRecord;
 
 /**
  * @author will
@@ -20,5 +21,15 @@ public interface OrderService {
      * @date 2023/3/20 15:59
      */
     PayRecordDto createOrder(String userId, AddOrderDto addOrderDto);
+
+
+    /**
+     * @param payNo 交易记录号
+     * @return com.xuecheng.orders.model.po.XcPayRecord
+     * @description 查询支付交易记录
+     * @author will
+     * @date 2023/3/20 23:48
+     */
+    XcPayRecord getPayRecordByPayNo(String payNo);
 
 }

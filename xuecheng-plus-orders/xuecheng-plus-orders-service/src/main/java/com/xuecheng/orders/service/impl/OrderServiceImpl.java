@@ -199,4 +199,18 @@ public class OrderServiceImpl implements OrderService {
         return payRecord;
     }
 
+
+    /**
+     * @param payNo 交易记录号
+     * @return com.xuecheng.orders.model.po.XcPayRecord
+     * @description 查询支付交易记录
+     * @author will
+     * @date 2023/3/20 23:48
+     */
+    @Override
+    public XcPayRecord getPayRecordByPayNo(String payNo) {
+        XcPayRecord xcPayRecord = payRecordMapper.selectOne(new LambdaQueryWrapper<XcPayRecord>().eq(XcPayRecord::getPayNo, payNo));
+        return xcPayRecord;
+    }
+
 }
