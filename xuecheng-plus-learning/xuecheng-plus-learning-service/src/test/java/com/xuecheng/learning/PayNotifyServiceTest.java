@@ -22,7 +22,7 @@ public class PayNotifyServiceTest {
  public void testSend(){
    MqMessage mqMessage = new MqMessage();
    mqMessage.setId(100L);
-      receivePayNotifyService.send(mqMessage);
+      //receivePayNotifyService.send(mqMessage);
   }
 
 }

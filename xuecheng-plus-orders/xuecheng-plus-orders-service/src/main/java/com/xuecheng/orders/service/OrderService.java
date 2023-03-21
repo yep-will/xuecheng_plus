@@ -1,5 +1,6 @@
 package com.xuecheng.orders.service;
 
+import com.xuecheng.messagesdk.model.po.MqMessage;
 import com.xuecheng.orders.model.dto.AddOrderDto;
 import com.xuecheng.orders.model.dto.PayRecordDto;
 import com.xuecheng.orders.model.dto.PayStatusDto;
@@ -43,6 +44,7 @@ public interface OrderService {
      */
     PayRecordDto queryPayResult(String payNo);
 
+
     /**
      * @param payStatusDto 从支付宝查询到的支付结果信息
      * @return void
@@ -51,5 +53,15 @@ public interface OrderService {
      * @date 2023/3/21 16:30
      */
     void saveAliPayStatus(PayStatusDto payStatusDto);
+
+
+    /**
+     * @param message 引进的自定义的消息sdk
+     * @return void
+     * @description 发送通知结果
+     * @author will
+     * @date 2023/3/21 23:12
+     */
+    void notifyPayResult(MqMessage message);
 
 }

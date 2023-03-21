@@ -37,7 +37,14 @@ public interface MyCourseTablesService {
     XcCourseTablesDto getLearnStatus(String userId, Long courseId);
 
 
-    //boolean saveChooseCourseStauts(String choosecourseId);
+    /**
+     * @param chooseCourseId 选课id
+     * @return boolean
+     * @description 保存选课成功状态
+     * @author will
+     * @date 2023/3/21 23:54
+     */
+    boolean saveChooseCourseStatus(String chooseCourseId);
 
     //PageResult<MyCourseTableItemDto> myCoursetables(MyCourseTableParams params);
 
