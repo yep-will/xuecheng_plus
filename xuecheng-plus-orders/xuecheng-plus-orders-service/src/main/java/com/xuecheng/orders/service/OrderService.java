@@ -2,6 +2,7 @@ package com.xuecheng.orders.service;
 
 import com.xuecheng.orders.model.dto.AddOrderDto;
 import com.xuecheng.orders.model.dto.PayRecordDto;
+import com.xuecheng.orders.model.dto.PayStatusDto;
 import com.xuecheng.orders.model.po.XcPayRecord;
 
 /**
@@ -41,5 +42,14 @@ public interface OrderService {
      * @date 2023/3/21 12:29
      */
     PayRecordDto queryPayResult(String payNo);
+
+    /**
+     * @param payStatusDto 从支付宝查询到的支付结果信息
+     * @return void
+     * @description 保存支付宝支付结果
+     * @author will
+     * @date 2023/3/21 16:30
+     */
+    void saveAliPayStatus(PayStatusDto payStatusDto);
 
 }

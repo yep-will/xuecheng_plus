@@ -326,6 +326,7 @@ public class OrderServiceImpl implements OrderService {
      * @date 2023/3/21 12:35
      */
     @Transactional(rollbackFor = RuntimeException.class)
+    @Override
     public void saveAliPayStatus(PayStatusDto payStatusDto) {
         //支付记录号
         String payNO = payStatusDto.getOut_trade_no();
