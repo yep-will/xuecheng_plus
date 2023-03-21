@@ -36,7 +36,7 @@ public class AliPayTest {
         //创建API对应的request类
         AlipayTradeQueryRequest request = new AlipayTradeQueryRequest();
         JSONObject bizContent = new JSONObject();
-        bizContent.put("out_trade_no", "202210100010101002");//payTestController查看
+        bizContent.put("out_trade_no", "1637847838940090368");//payTestController查看
         //bizContent.put("trade_no", "2014112611001004680073956707");
         request.setBizContent(bizContent.toString());
         AlipayTradeQueryResponse response = alipayClient.execute(request);

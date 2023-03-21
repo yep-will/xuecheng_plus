@@ -32,4 +32,14 @@ public interface OrderService {
      */
     XcPayRecord getPayRecordByPayNo(String payNo);
 
+
+    /**
+     * @param payNo 交易记录号
+     * @return com.xuecheng.orders.model.dto.PayRecordDto 支付记录信息
+     * @description 1.调用支付宝的接口查询支付结果；2.拿到支付结果更新支付记录表和订单表的支付状态
+     * @author will
+     * @date 2023/3/21 12:29
+     */
+    PayRecordDto queryPayResult(String payNo);
+
 }

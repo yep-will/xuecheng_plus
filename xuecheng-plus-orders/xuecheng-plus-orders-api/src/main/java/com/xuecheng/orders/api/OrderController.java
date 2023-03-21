@@ -122,4 +122,23 @@ public class OrderController {
         httpResponse.getWriter().close();
     }
 
+
+    /**
+     * @param payNo 支付交易记录号
+     * @return com.xuecheng.orders.model.dto.PayRecordDto
+     * @description 查询支付结果
+     * @author will
+     * @date 2023/3/21 12:28
+     */
+    @ApiOperation("查询支付结果")
+    @GetMapping("/payresult")
+    @ResponseBody
+    public PayRecordDto payResult(String payNo) throws IOException {
+        //查询支付结果
+        PayRecordDto payRecordDto = orderService.queryPayResult(payNo);
+        //当支付成功后更新支付记录表的支付状态及订单表的状态为 支付成功
+
+        return null;
+    }
+
 }
