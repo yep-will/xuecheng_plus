@@ -319,14 +319,55 @@ public class OrderServiceImpl implements OrderService {
 
 
     /**
-     * @param payStatusDto 支付结果信息
+     * @param payStatusDto 从支付宝查询到的支付结果信息
      * @return void
      * @description 保存支付宝支付结果
      * @author will
      * @date 2023/3/21 12:35
      */
+    @Transactional(rollbackFor = RuntimeException.class)
     public void saveAliPayStatus(PayStatusDto payStatusDto) {
+        //支付记录号
+        String payNO = payStatusDto.getOut_trade_no();
+        //从数据库获取支付交易记录
+        XcPayRecord payRecordByPayNo = getPayRecordByPayNo(payNO);
+        if (payRecordByPayNo == null) {
+            XueChengPlusException.cast("无法获取相关支付记录");
+        }
+        //拿到相关联的订单id
+        Long orderId = payRecordByPayNo.getOrderId();
+        XcOrders xcOrders = ordersMapper.selectById(orderId);
+        if (xcOrders == null) {
+            XueChengPlusException.cast("无法获取关联的订单");
+        }
+        //获取数据库支付状态
+        String statusFromDb = payRecordByPayNo.getStatus();
+        //如果数据库支付的状态已经是成功了，不再处理了
+        if ("601002".equals(statusFromDb)) {
+            return;
+        }
 
+        //如果支付成功
+        //从支付宝查询到的支付结果
+        String trade_status = payStatusDto.getTrade_status();
+        if (trade_status.equals("TRADE_SUCCESS")) {
+            //支付宝返回的信息为支付成功
+            //更新支付记录表的状态为支付成功
+            payRecordByPayNo.setStatus("601002");
+            //支付宝的订单号
+            payRecordByPayNo.setOutPayNo(payStatusDto.getTrade_no());
+            //第三方支付渠道编号
+            payRecordByPayNo.setOutPayChannel("Alipay");
+            //支付成功时间
+            payRecordByPayNo.setPaySuccessTime(LocalDateTime.now());
+            //更新订单表的状态为支付成功
+            xcOrders.setStatus("600002");
+
+            //1. 更新xc_pay_record数据库表
+            payRecordMapper.updateById(payRecordByPayNo);
+            //2. 更新xc_orders数据库表
+            ordersMapper.updateById(xcOrders);
+        }
     }
 
 }
