@@ -157,7 +157,6 @@ public class OrderController {
      */
     @PostMapping("/paynotify")
     public void paynotify(HttpServletRequest request, HttpServletResponse response) throws IOException, AlipayApiException {
-
         //获取支付宝POST过来反馈信息
         Map<String, String> params = new HashMap<String, String>();
         Map requestParams = request.getParameterMap();

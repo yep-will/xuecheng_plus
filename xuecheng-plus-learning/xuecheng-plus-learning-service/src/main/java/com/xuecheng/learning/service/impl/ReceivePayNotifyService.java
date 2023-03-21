@@ -1,3 +1,4 @@
+/*
 package com.xuecheng.learning.service.impl;
 
 import com.alibaba.fastjson.JSON;
@@ -11,12 +12,14 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+*/
 /**
  * @author Mr.M
  * @version 1.0
  * @description 接收支付结果通知service
  * @date 2022/10/5 5:06
- */
+ *//*
+
 @Slf4j
 @Service
 public class ReceivePayNotifyService {
@@ -47,20 +50,24 @@ public class ReceivePayNotifyService {
 
         //添加选课
         /////////////////////////////////////////////////////////////boolean b = myCourseTablesService.saveChooseCourseStauts(choosecourseId);
-        /*if(b){
+        */
+/*if(b){
             //向订单服务回复
             send(mqMessage);
-        }*/
+        }*//*
+
 
     }
 
-    /**
+    */
+/**
      * @description 回复消息
      * @param message  回复消息
      * @return void
      * @author Mr.M
      * @date 2022/9/20 9:43
-     */
+     *//*
+
     public void send(MqMessage message){
         //转json
         String msg = JSON.toJSONString(message);
@@ -72,3 +79,4 @@ public class ReceivePayNotifyService {
 
 
 }
+*/
