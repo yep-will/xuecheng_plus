@@ -27,7 +27,7 @@
                 <p>${model.courseBase.mtName}<span>\ ${model.courseBase.stName}</span></p>
                 <p class="tit">${model.courseBase.name}</p>
                 <p class="pic">
-                    <#if model.courseBase.charge == '201000'>
+                    <#if model.courseBase.charge=='201000'>
                         <span class="new-pic">免费</span>
                     <#else>
                         <span class="new-pic">特惠价格￥${model.courseBase.price!''}</span>
@@ -58,11 +58,10 @@
             </div>
             <div class="banner-rit">
                 <p>
-                    <a href="http://www.xuecheng-plus.com/course/preview/learning.html?id=${model.courseBase.id}"
+                    <a href="http://www.51xuecheng.cn/course/preview/learning.html?id=${model.courseBase.id}"
                        target="_blank">
                         <#if model.courseBase.pic??>
-                            <img src="http://file.xuecheng-plus.com${model.courseBase.pic}" alt="" width="270"
-                                 height="156">
+                            <img src="http://file.51xuecheng.cn${model.courseBase.pic}" alt="" width="270" height="156">
                         <#else>
                             <img src="/static/img/widget-video.png" alt="" width="270" height="156">
                         </#if>
@@ -191,7 +190,7 @@
                                         <ul class="list-box">
                                             <#list firstNode.teachPlanTreeNodes as secondNode>
                                                 <li>
-                                                    <a href="http://www.xuecheng-plus.com/course/preview/learning.html?id=${model.courseBase.id}&chapter=${secondNode.teachplanMedia.teachplanId!''}"
+                                                    <a href="http://www.51xuecheng.cn/course/preview/learning.html?id=${model.courseBase.id}&chapter=${secondNode.teachplanMedia.teachplanId!''}"
                                                        target="_blank">${secondNode.pname}</a></li>
                                             </#list>
                                         </ul>
@@ -667,7 +666,8 @@
             <div class="fact-pic">实际支付: <span>￥${model.courseBase.price!''}元</span></div>
             <div class="go-pay"><a href="#" @click.prevent="wxPay()">微信支付</a><a href="#"
                                                                                 @click.prevent="aliPay()">支付宝支付</a><a
-                        href="#" @click.prevent="startLearngin()">试学</a></div>
+                        href="#" @click.prevent="querypayresult()">支付完成</a><a href="#" @click.prevent="startLearngin()">试学</a>
+            </div>
         </div>
         <!--支付弹窗- end -->
         <div class="popup-comment-box">

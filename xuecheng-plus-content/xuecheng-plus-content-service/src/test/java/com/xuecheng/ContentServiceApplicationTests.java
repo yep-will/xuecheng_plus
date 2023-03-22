@@ -37,7 +37,7 @@ class ContentServiceApplicationTests {
     void testCourseBaseInfoService() {
         //默认有当前页码1和每页记录数10
         PageParams pageParams = new PageParams();
-        PageResult<CourseBase> courseBasePageResult = courseBaseInfoService.queryCourseBaseList(pageParams, new QueryCourseParamsDto());
+        PageResult<CourseBase> courseBasePageResult = courseBaseInfoService.queryCourseBaseList(1232141425L, pageParams, new QueryCourseParamsDto());
         System.out.println(courseBasePageResult);
     }
 

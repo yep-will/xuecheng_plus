@@ -1,9 +1,11 @@
 package com.xuecheng.ucenter.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.xuecheng.ucenter.mapper.XcMenuMapper;
 import com.xuecheng.ucenter.mapper.XcUserMapper;
 import com.xuecheng.ucenter.model.dto.AuthParamsDto;
 import com.xuecheng.ucenter.model.dto.XcUserExt;
+import com.xuecheng.ucenter.model.po.XcMenu;
 import com.xuecheng.ucenter.service.AuthService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Mr.M
@@ -27,6 +32,9 @@ public class UserServiceImpl implements UserDetailsService {
     @Autowired
     XcUserMapper xcUserMapper;
 
+    @Autowired
+    XcMenuMapper xcMenuMapper;
+
     /**
      * Spring容器
      */
@@ -40,7 +48,7 @@ public class UserServiceImpl implements UserDetailsService {
     /**
      * @param s 传入的是AuthParamsDto类型的json数据
      * @return org.springframework.security.core.userdetails.UserDetails
-     * @description 根据账号查询用户信息, 在数据库中获取密码进行比对, 同时使用withUsername内容生成令牌
+     * @description 根据账号查询用户信息, 在数据库中获取密码进行比对
      * @author Mr.M
      * @date 2022/9/28 18:30
      */
@@ -74,30 +82,45 @@ public class UserServiceImpl implements UserDetailsService {
         }
 
         //认证完成
-        //封装xcUserExt用户信息为UserDetails
-        UserDetails userPrincipal = getUserPrincipal(xcUserExt);
+        //封装xcUserExt用户信息为UserDetails，根据userDetails生成令牌
+        UserDetails userDetails = getUserPrincipal(xcUserExt);
 
-        return userPrincipal;
+        return userDetails;
     }
 
 
     /**
      * @param xcUserExt 用户id，主键
      * @return org.springframework.security.core.userdetails.UserDetails 用户信息
-     * @description 封装xcUserExt用户信息为UserDetails
+     * @description 使用withUsername内容.authorities等信息生成令牌，封装xcUserExt用户信息为UserDetails，
      * @author will
      * @date 2023/3/8 23:01
      */
     public UserDetails getUserPrincipal(XcUserExt xcUserExt) {
         String password = xcUserExt.getPassword();
+
         //用户权限,如果不加会报错Cannot pass a null GrantedAuthority collection
         String[] authorities = {"test"};
+        //根据用户id查询用户的权限
+        List<XcMenu> xcMenus = xcMenuMapper.selectPermissionByUserId(xcUserExt.getId());
+        if (xcMenus.size() > 0) {
+            List<String> permissions = new ArrayList<>();
+            xcMenus.forEach(m -> {
+                //拿到用户拥有的权限表示符号
+                permissions.add(m.getCode());
+            });
+
+            //将permissions转成数组
+            authorities = permissions.toArray(new String[0]);
+        }
+
         //为了安全在令牌中不放密码(令牌不能存放敏感信息)
         xcUserExt.setPassword(null);
         //将user对象转json
         String userJson = JSON.toJSONString(xcUserExt);
-        //创建UserDetails对象,权限信息待实现授权功能时再向UserDetail中加入
+        //创建UserDetails对象
         UserDetails userDetails = User.withUsername(userJson).password(password).authorities(authorities).build();
+
         return userDetails;
     }
 

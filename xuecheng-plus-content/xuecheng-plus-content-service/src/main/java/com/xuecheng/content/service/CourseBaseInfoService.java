@@ -19,12 +19,13 @@ public interface CourseBaseInfoService {
     /**
      * @param pageParams           分页参数
      * @param queryCourseParamsDto 查询条件
+     * @param companyId            机构id
      * @return com.xuecheng.base.model.PageResult<com.xuecheng.content.model.po.CourseBase>
      * @description 课程查询接口
      * @author will
      * @date 2023/2/6 21:43
      */
-    PageResult<CourseBase> queryCourseBaseList(PageParams pageParams, QueryCourseParamsDto queryCourseParamsDto);
+    PageResult<CourseBase> queryCourseBaseList(Long companyId, PageParams pageParams, QueryCourseParamsDto queryCourseParamsDto);
 
     /**
      * @param companyId    教学机构id
@@ -60,7 +61,7 @@ public interface CourseBaseInfoService {
      * @param companyId 机构id
      * @param courseId  课程id
      * @return void
-     * @description 删除课程(包含基本信息、营销信息、课程计划、课程教师)
+     * @description 删除课程(包含基本信息 、 营销信息 、 课程计划 、 课程教师)
      * @author will
      * @date 2023/2/13 22:17
      */
