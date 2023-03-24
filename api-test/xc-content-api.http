@@ -164,3 +164,11 @@ DELETE  {{content_host}}/content/courseTeacher/course/24/118
 
 ### 根据课程id查询课程发布信息
 GET {{content_host}}/content/r/coursepublish/123
+
+
+### 通过网关访问课程查询
+GET {{gateway_host}}/content/course/whole/126
+
+
+### 直接访问课程查询
+GET {{content_host}}/content/course/whole/126

@@ -1,5 +1,6 @@
 package com.xuecheng.content.service.Impl;
 
+
 import com.alibaba.fastjson.JSON;
 import com.xuecheng.base.exception.XueChengPlusException;
 import com.xuecheng.content.config.MultipartSupportConfig;
@@ -31,6 +32,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.web.multipart.MultipartFile;
+import redis.clients.jedis.Jedis;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -79,6 +81,11 @@ public class CoursePublishServiceImpl implements CoursePublishService {
 
     @Autowired
     SearchServiceClient searchServiceClient;
+
+    //@Autowired
+    //RedisTemplate redisTemplate;
+
+    Jedis jedis = new Jedis("localhost", 6379);
 
 
     /**
@@ -383,16 +390,46 @@ public class CoursePublishServiceImpl implements CoursePublishService {
 
 
     /**
-     * @param courseId  课程id
+     * @param courseId 课程id
      * @return com.xuecheng.content.model.po.CoursePublish
      * @description 根据课程id查询课程发布信息
      * @author will
      * @date 2023/3/12 22:15
      */
     @Override
-    public CoursePublish getCoursePublish(Long courseId){
+    public CoursePublish getCoursePublish(Long courseId) {
         CoursePublish coursePublish = coursePublishMapper.selectById(courseId);
-        return coursePublish ;
+        return coursePublish;
     }
 
+
+    /**
+     * @param courseId 课程id
+     * @return com.xuecheng.content.model.po.CoursePublish
+     * @description 查询缓存中的课程信息
+     * @author will
+     * @date 2023/3/24 16:55
+     */
+    @Override
+    public CoursePublish getCoursePublishCache(Long courseId) {
+        //查询缓存
+        //Object jsonObj = redisTemplate.opsForValue().get("course:" + courseId);
+        Object jsonObj = jedis.get("course:" + courseId);
+
+        if (jsonObj != null) {
+            String jsonString = jsonObj.toString();
+            //从缓存查
+            CoursePublish coursePublish = JSON.parseObject(jsonString, CoursePublish.class);
+            return coursePublish;
+        } else {
+            //从数据库查询
+            CoursePublish coursePublish = getCoursePublish(courseId);
+
+            if (coursePublish != null) {
+                //redisTemplate.opsForValue().set("course:" + courseId, JSON.toJSONString(coursePublish));
+                jedis.set("course:" + courseId, JSON.toJSONString(coursePublish));
+            }
+            return coursePublish;
+        }
+    }
 }
