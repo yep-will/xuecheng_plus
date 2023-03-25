@@ -1,6 +1,6 @@
 spring:
   application:
-    name: content-service
+    name: system-service
   cloud:
     nacos:
       server-addr: 192.168.101.1:8848

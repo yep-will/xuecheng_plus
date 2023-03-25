@@ -1,5 +1,6 @@
 package com.xuecheng.content.service.Impl;
 
+
 import com.alibaba.fastjson.JSON;
 import com.xuecheng.base.exception.XueChengPlusException;
 import com.xuecheng.content.config.MultipartSupportConfig;
@@ -25,8 +26,11 @@ import freemarker.template.Template;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
@@ -39,6 +43,8 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author will
@@ -79,6 +85,14 @@ public class CoursePublishServiceImpl implements CoursePublishService {
 
     @Autowired
     SearchServiceClient searchServiceClient;
+
+    @Autowired
+    RedisTemplate redisTemplate;
+
+    //Jedis jedis = new Jedis("localhost", 6379);
+
+    @Autowired
+    RedissonClient redissonClient;
 
 
     /**
@@ -383,16 +397,80 @@ public class CoursePublishServiceImpl implements CoursePublishService {
 
 
     /**
-     * @param courseId  课程id
+     * @param courseId 课程id
      * @return com.xuecheng.content.model.po.CoursePublish
      * @description 根据课程id查询课程发布信息
      * @author will
      * @date 2023/3/12 22:15
      */
     @Override
-    public CoursePublish getCoursePublish(Long courseId){
+    public CoursePublish getCoursePublish(Long courseId) {
         CoursePublish coursePublish = coursePublishMapper.selectById(courseId);
-        return coursePublish ;
+        return coursePublish;
+    }
+
+
+    /**
+     * @param courseId 课程id
+     * @return com.xuecheng.content.model.po.CoursePublish
+     * @description 查询缓存中的课程信息
+     * @author will
+     * @date 2023/3/24 16:55
+     */
+    @Override
+    public CoursePublish getCoursePublishCache(Long courseId) {
+        //查询缓存
+        Object jsonObj = redisTemplate.opsForValue().get("course:" + courseId);
+        //Object jsonObj = jedis.get("course:" + courseId);
+
+        if (jsonObj != null) {
+            String jsonString = jsonObj.toString();
+            if (jsonString.equals("null")) {
+                return null;
+            }
+            //从缓存查询
+            //System.out.println("=============从缓存查询=============");
+            CoursePublish coursePublish = JSON.parseObject(jsonString, CoursePublish.class);
+            return coursePublish;
+
+        } else {
+            //给每门课程设置一个锁，这里只是设置锁的id，不是设置键值对
+            RLock rlock = redissonClient.getLock("coursequerylock:" + courseId);
+            //获取分布式锁
+            rlock.lock();
+            try {
+/*
+                try {
+                    //手动延迟40秒，测试redisson看门狗的续期，默认锁的有效时间是30秒
+                    Thread.sleep(40000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+ */
+                //再次查询一下缓存，避免多个线程同时等待释放锁时，第一个线程
+                //已经存进缓存了，后面等待的线程拿到锁后依然直接从数据库查询
+                jsonObj = redisTemplate.opsForValue().get("course:" + courseId);
+                if (jsonObj != null) {
+                    String jsonString = jsonObj.toString();
+                    CoursePublish coursePublish = JSON.parseObject(jsonString, CoursePublish.class);
+                    return coursePublish;
+                }
+
+                //从数据库查询
+                System.out.println("=============从数据库查询=============");
+                CoursePublish coursePublish = getCoursePublish(courseId);
+
+                //设置过期时间 30+随机时间 秒
+                redisTemplate.opsForValue().set("course:" + courseId, JSON.toJSONString(coursePublish), 30 + new Random().nextInt(100), TimeUnit.SECONDS);
+                //jedis.set("course:" + courseId, JSON.toJSONString(coursePublish));
+
+                return coursePublish;
+            } finally {
+                //手动释放锁
+                rlock.unlock();
+            }
+        }
+
     }
 
 }
