@@ -26,6 +26,8 @@ import freemarker.template.Template;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -88,6 +90,9 @@ public class CoursePublishServiceImpl implements CoursePublishService {
     RedisTemplate redisTemplate;
 
     //Jedis jedis = new Jedis("localhost", 6379);
+
+    @Autowired
+    RedissonClient redissonClient;
 
 
     /**
@@ -429,15 +434,24 @@ public class CoursePublishServiceImpl implements CoursePublishService {
             return coursePublish;
 
         } else {
-            //使用同步锁解决缓存击穿
-            //锁对象必须是多个线程共用的锁对象，不可以是new出来的对象
-            //Spring默认当前Service是单例被多个线程共享，所以线程间会争抢this锁
-            synchronized (this) {
+            //给每门课程设置一个锁，这里只是设置锁的id，不是设置键值对
+            RLock rlock = redissonClient.getLock("coursequerylock:" + courseId);
+            //获取分布式锁
+            rlock.lock();
+            try {
+/*
+                try {
+                    //手动延迟40秒，测试redisson看门狗的续期，默认锁的有效时间是30秒
+                    Thread.sleep(40000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+ */
                 //再次查询一下缓存，避免多个线程同时等待释放锁时，第一个线程
                 //已经存进缓存了，后面等待的线程拿到锁后依然直接从数据库查询
-                Object jsonObj2 = redisTemplate.opsForValue().get("course:" + courseId);
-                if (jsonObj2 != null) {
-                    String jsonString = jsonObj2.toString();
+                jsonObj = redisTemplate.opsForValue().get("course:" + courseId);
+                if (jsonObj != null) {
+                    String jsonString = jsonObj.toString();
                     CoursePublish coursePublish = JSON.parseObject(jsonString, CoursePublish.class);
                     return coursePublish;
                 }
@@ -451,8 +465,12 @@ public class CoursePublishServiceImpl implements CoursePublishService {
                 //jedis.set("course:" + courseId, JSON.toJSONString(coursePublish));
 
                 return coursePublish;
+            } finally {
+                //手动释放锁
+                rlock.unlock();
             }
         }
+
     }
 
 }
