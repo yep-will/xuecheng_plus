@@ -424,22 +424,35 @@ public class CoursePublishServiceImpl implements CoursePublishService {
                 return null;
             }
             //从缓存查询
-            System.out.println("=============从缓存查询=============");
+            //System.out.println("=============从缓存查询=============");
             CoursePublish coursePublish = JSON.parseObject(jsonString, CoursePublish.class);
             return coursePublish;
 
         } else {
-            //从数据库查询
-            System.out.println("=============从数据库查询=============" + i++);
-            CoursePublish coursePublish = getCoursePublish(courseId);
+            //使用同步锁解决缓存击穿
+            //锁对象必须是多个线程共用的锁对象，不可以是new出来的对象
+            //Spring默认当前Service是单例被多个线程共享，所以线程间会争抢this锁
+            synchronized (this) {
+                //再次查询一下缓存，避免多个线程同时等待释放锁时，第一个线程
+                //已经存进缓存了，后面等待的线程拿到锁后依然直接从数据库查询
+                Object jsonObj2 = redisTemplate.opsForValue().get("course:" + courseId);
+                if (jsonObj2 != null) {
+                    String jsonString = jsonObj2.toString();
+                    CoursePublish coursePublish = JSON.parseObject(jsonString, CoursePublish.class);
+                    return coursePublish;
+                }
 
-            //设置过期时间 30+随机时间 秒
-            redisTemplate.opsForValue().set("course:" + courseId, JSON.toJSONString(coursePublish), 30 + new Random().nextInt(100), TimeUnit.SECONDS);
-            //jedis.set("course:" + courseId, JSON.toJSONString(coursePublish));
+                //从数据库查询
+                System.out.println("=============从数据库查询=============");
+                CoursePublish coursePublish = getCoursePublish(courseId);
 
-            return coursePublish;
+                //设置过期时间 30+随机时间 秒
+                redisTemplate.opsForValue().set("course:" + courseId, JSON.toJSONString(coursePublish), 30 + new Random().nextInt(100), TimeUnit.SECONDS);
+                //jedis.set("course:" + courseId, JSON.toJSONString(coursePublish));
+
+                return coursePublish;
+            }
         }
     }
 
-    int i = 1;
 }
