@@ -28,11 +28,11 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.web.multipart.MultipartFile;
-import redis.clients.jedis.Jedis;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -82,10 +82,10 @@ public class CoursePublishServiceImpl implements CoursePublishService {
     @Autowired
     SearchServiceClient searchServiceClient;
 
-    //@Autowired
-    //RedisTemplate redisTemplate;
+    @Autowired
+    RedisTemplate redisTemplate;
 
-    Jedis jedis = new Jedis("localhost", 6379);
+    //Jedis jedis = new Jedis("localhost", 6379);
 
 
     /**
@@ -413,8 +413,8 @@ public class CoursePublishServiceImpl implements CoursePublishService {
     @Override
     public CoursePublish getCoursePublishCache(Long courseId) {
         //查询缓存
-        //Object jsonObj = redisTemplate.opsForValue().get("course:" + courseId);
-        Object jsonObj = jedis.get("course:" + courseId);
+        Object jsonObj = redisTemplate.opsForValue().get("course:" + courseId);
+        //Object jsonObj = jedis.get("course:" + courseId);
 
         if (jsonObj != null) {
             String jsonString = jsonObj.toString();
@@ -426,8 +426,8 @@ public class CoursePublishServiceImpl implements CoursePublishService {
             CoursePublish coursePublish = getCoursePublish(courseId);
 
             if (coursePublish != null) {
-                //redisTemplate.opsForValue().set("course:" + courseId, JSON.toJSONString(coursePublish));
-                jedis.set("course:" + courseId, JSON.toJSONString(coursePublish));
+                redisTemplate.opsForValue().set("course:" + courseId, JSON.toJSONString(coursePublish));
+                //jedis.set("course:" + courseId, JSON.toJSONString(coursePublish));
             }
             return coursePublish;
         }
