@@ -41,6 +41,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author will
@@ -418,18 +419,29 @@ public class CoursePublishServiceImpl implements CoursePublishService {
 
         if (jsonObj != null) {
             String jsonString = jsonObj.toString();
-            //从缓存查
+            if (jsonString.equals("null")) {
+                return null;
+            }
+            //从缓存查询
+            System.out.println("=============从缓存查询=============");
             CoursePublish coursePublish = JSON.parseObject(jsonString, CoursePublish.class);
             return coursePublish;
+
         } else {
             //从数据库查询
+            System.out.println("=============从数据库查询=============" + i++);
             CoursePublish coursePublish = getCoursePublish(courseId);
 
             if (coursePublish != null) {
                 redisTemplate.opsForValue().set("course:" + courseId, JSON.toJSONString(coursePublish));
                 //jedis.set("course:" + courseId, JSON.toJSONString(coursePublish));
+            } else {
+                //缓存空值设置过期时间30秒
+                redisTemplate.opsForValue().set("course:" + courseId, JSON.toJSONString(coursePublish), 30, TimeUnit.SECONDS);
             }
             return coursePublish;
         }
     }
+
+    int i = 1;
 }
